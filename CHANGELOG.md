@@ -25,6 +25,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Entry loader: a gold envelope draws itself while a counter tracks real loading (fonts, hero photo, logos), the wax seal stamps on, and the screen parts along the fold to reveal the hero. The hero entrance now plays exactly as it's revealed, so the first load no longer shows a half-animated letter.
 - Footer: the giant wordmark no longer swallows clicks on Privacy, Terms and SuperMIA; legal links are brighter.
 - Legal pages: the contact seal shows the full, centred MailPilot mark.
+- Legal pages: "In short" is a dark summary panel with an icon for each point (no side-bar cards); the contents list marks the section you're reading with a warm bronze highlight and a bronze number, scrolls without a visible scrollbar and keeps the current section in view.
+- Envelope: the folded letter passes in front of the open flap and the opening's edge (its airmail stripe now sits behind the letter), then sits visibly inside the envelope behind its pockets.
+- Seal stamp: while held or pressing, the 3D stamp tips so its seal faces the page. It hovers over the circle, presses down onto the letter, squashes on impact and lifts back up (the drawn fallback stamp does the same from the side).
+- Features: the open folder's tab and the folder read as one sheet: the tab is taller, in the folder's own paper colour, and curves into the folder with no line between them. Switching folders pulls the new folder (tab and page together) up in front as its own sheet, over the one it replaces.
 - Sign-in links now go to mailpilot.supermia.ai.
 - Hero envelope scene: the letter now lifts clear, the envelope rises underneath it, and the letter slides in from the front (in front of the envelope's inside, behind its pockets). The wax seal's logo is centred (a global `svg { max-width: 100% }` reset had squeezed the wax blob off-centre).
 - Hero: the postmark now lands on the postage stamp instead of over the headline; side spacing stays even when the browser shows a scrollbar (the gutter is reserved during the loader, and scroll scenes re-measure when it finishes).
@@ -40,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - "Who it's for" panels open smoothly: a panel opens only after the mouse moves over it and settles, never while another is still opening, so panels no longer bounce back and forth; new portraits of three different American women, with descriptive alt text.
 - "How it works": the sticky panel is now a setup window, with a title bar showing the step count, a stepper (Persona, Connect, Manage, Review) whose line fills as you scroll, the current step's card, and a status bar with the step's time and an "under 20 minutes" meter.
 - Cleanup: removed old design backups, scratch files, unused images, Tailwind (installed but unused), stale docs (ARCHITECTURE, ROADMAP, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY), unused data, hooks and CSS. Build tools moved to devDependencies.
+- Footer: a security & compliance strip with a "CASA certified" badge (Cloud Application Security Assessment), plus AES-256 encryption and "Gmail data never used for ads or to train general AI models" from the official privacy policy. Shown on every page.
 - Footer: envelope flap and seal no longer overlap the columns; a cleaner Office column; real platform icons (also in the hero).
 
 ## [4.0.0] - 2026-10-15

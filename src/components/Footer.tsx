@@ -1,4 +1,4 @@
-import { ArrowUp, ArrowUpRight, Mail, MapPin } from "lucide-react";
+import { ArrowUp, ArrowUpRight, EyeOff, Lock, Mail, MapPin, ShieldCheck } from "lucide-react";
 import { links, nav, office, platforms } from "../data/content";
 import { getLenis } from "../lib/motion";
 import { PlatformIcon } from "./ui";
@@ -98,6 +98,26 @@ export function Footer({ home = true }: { home?: boolean }) {
               <Mail size={15} /> {office.email}
             </a>
           </address>
+        </div>
+
+        <div className="foot__trust" role="group" aria-label="Security and compliance">
+          <div className="casa">
+            <span className="casa__seal" aria-hidden="true">
+              <ShieldCheck size={24} strokeWidth={1.9} />
+            </span>
+            <span className="casa__text">
+              <strong>CASA certified</strong>
+              <em>Cloud Application Security Assessment, the independent review Google requires for Gmail apps</em>
+            </span>
+          </div>
+          <ul className="foot__facts">
+            <li>
+              <Lock size={15} /> Data encrypted with AES-256
+            </li>
+            <li>
+              <EyeOff size={15} /> Gmail data never used for ads or to train general AI models
+            </li>
+          </ul>
         </div>
 
         <div className="foot__bottom">

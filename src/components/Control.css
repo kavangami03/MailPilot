@@ -346,7 +346,12 @@
   cursor: grabbing;
   filter: drop-shadow(0 40px 30px rgb(0 0 0 / 0.45));
 }
-.stamp.is-dragging .stamp__shadow {
+.stamp.is-dragging .stamp__shadow,
+.stamp.is-lifted .stamp__shadow {
+  opacity: 0;
+}
+/* the 3D stamp is tipped to face the page while held or pressing: the drawn ground shadow doesn't fit it */
+.stamp.is-3d.is-pressing .stamp__shadow {
   opacity: 0;
 }
 .stamp:hover:not(.is-dragging):not(:disabled) svg {

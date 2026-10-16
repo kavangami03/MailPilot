@@ -7,6 +7,9 @@ import "./Control.css";
 // the 3D stamp (and three.js) only downloads when this section comes near
 const Stamp3D = lazy(() => import("./Stamp3D"));
 
+// The 3D stamp's seal face, as a fraction of the stamp button's height, while it's tipped to face the page.
+const FACE_3D = 0.663;
+
 type Mode = "draft" | "semi";
 type By = "you" | "auto";
 
@@ -97,7 +100,9 @@ export function Control() {
 
   useEffect(() => {
     if (prefersReducedMotion() || !tool.current) return; // the drawn stamp stays for reduced motion
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setNear(true), io.disconnect()), { rootMargin: "800px 0px" });
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setNear(true), io.disconnect()), {
+      rootMargin: "800px 0px",
+    });
     io.observe(tool.current);
     return () => io.disconnect();
   }, []);
@@ -149,7 +154,19 @@ export function Control() {
     [idx],
   );
 
-  // The stamp travels to the letter, presses, and the wax appears
+  // Where the seal face is: the drawn stamp's base, or for the 3D stamp (tipped so its seal faces the page)
+  // the centre of its head's face, which its camera puts at 66% of the button's height.
+  const faceAt = (t: HTMLElement) => {
+    if (!t.classList.contains("is-3d")) {
+      const r = t.querySelector(".stamp__base")!.getBoundingClientRect();
+      return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    }
+    const r = t.getBoundingClientRect();
+    return { x: r.left + r.width / 2, y: r.top + r.height / 2 + (FACE_3D - 0.5) * t.offsetHeight };
+  };
+
+  // The seal travels to hover over the circle, presses down onto the paper, squashes on impact,
+  // then lifts back up and goes home. The 3D stamp does this facing the page; the drawn one from the side.
   const press = useCallback(
     (by: By) => {
       if (busy.current) return;
@@ -161,31 +178,43 @@ export function Control() {
         window.setTimeout(() => post(by), 900);
         return;
       }
+      const three = t.classList.contains("is-3d");
       const b = g.getBoundingClientRect();
-      const base = t.querySelector(".stamp__base")!.getBoundingClientRect();
-      const dx = b.left + b.width / 2 - (base.left + base.width / 2);
-      const dy = b.top + b.height / 2 - (base.top + base.height / 2);
+      const f = faceAt(t);
+      const dx = b.left + b.width / 2 - f.x;
+      const dy = b.top + b.height / 2 - f.y;
       const x0 = Number(gsap.getProperty(t, "x"));
       const y0 = Number(gsap.getProperty(t, "y"));
-      t.classList.add("is-pressing"); // the 3D stamp stands upright for the press
+      // hovering: a little above the circle and closer to you; pressing: down onto it
+      const lift = three ? 34 : 90;
+      const up = three ? 1.12 : 1.04;
+      const squash = three ? { scale: 0.94 } : { scaleY: 0.92, scaleX: 1.05 };
+      const settle = three ? { scale: 1 } : { scaleY: 1, scaleX: 1 };
+      const lifted = (on: boolean) => () => t.classList.toggle("is-lifted", on);
+      t.classList.add("is-pressing");
       gsap
         .timeline()
-        .to(t, {
-          x: x0 + dx,
-          y: y0 + dy - 26,
-          rotate: 0,
-          duration: 0.5,
-          ease: "power2.inOut",
-        })
-        .to(t, { y: y0 + dy, scaleY: 0.94, duration: 0.14, ease: "power3.in" })
+        // scale around the seal face, so it stays planted on the circle
+        .set(t, { transformOrigin: three ? `50% ${FACE_3D * 100}%` : "50% 100%" })
+        .add(lifted(true))
+        .to(t, { x: x0 + dx, y: y0 + dy - lift, rotate: 0, scale: up, duration: 0.5, ease: "power2.inOut" })
+        // down onto the letter
+        .to(t, { y: y0 + dy, scale: 1, duration: 0.15, ease: "power3.in" }, "+=0.08")
+        .add(lifted(false))
         .add(() => {
           setSealed(by);
-          gsap.fromTo(letter.current, { y: 0 }, { y: 5, duration: 0.08, yoyo: true, repeat: 1 });
+          gsap.fromTo(letter.current, { y: 0 }, { y: 4, duration: 0.07, yoyo: true, repeat: 1 });
         })
-        .to(t, { y: y0 + dy - 40, scaleY: 1, duration: 0.3, ease: "power2.out" }, "+=0.12")
-        .to(t, { x: 0, y: 0, duration: 0.7, ease: "power3.inOut" })
+        .to(t, { ...squash, duration: 0.07, ease: "power2.out" })
+        .to(t, { ...settle, duration: 0.22, ease: "back.out(3)" })
+        // back up, then home
+        .add(lifted(true), "+=0.06")
+        .to(t, { y: y0 + dy - lift, scale: up, duration: 0.3, ease: "power2.out" })
+        .to(t, { x: 0, y: 0, scale: 1, duration: 0.6, ease: "power3.inOut" })
+        .add(lifted(false), "-=0.15")
         .add(() => t.classList.remove("is-pressing"))
-        .add(() => post(by), "+=0.15");
+        .set(t, { clearProps: "transformOrigin" })
+        .add(() => post(by), "+=0.1");
     },
     [post],
   );
@@ -225,19 +254,14 @@ export function Control() {
     if (!drag.current.on || !t || !target.current) return;
     drag.current.on = false;
     t.classList.remove("is-dragging");
-    const a = t.querySelector(".stamp__base")!.getBoundingClientRect();
+    const f = faceAt(t);
     const b = target.current.getBoundingClientRect();
     const pad = 40;
-    const hit = a.left < b.right + pad && a.right > b.left - pad && a.top < b.bottom + pad && a.bottom > b.top - pad;
+    const hit =
+      Math.abs(f.x - (b.left + b.width / 2)) < b.width / 2 + pad &&
+      Math.abs(f.y - (b.top + b.height / 2)) < b.height / 2 + pad;
     if (hit) press("you");
-    else
-      gsap.to(t, {
-        x: 0,
-        y: 0,
-        rotate: 0,
-        duration: 0.7,
-        ease: "back.out(1.5)",
-      });
+    else gsap.to(t, { x: 0, y: 0, rotate: 0, duration: 0.7, ease: "back.out(1.5)" });
   };
 
   return (

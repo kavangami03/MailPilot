@@ -53,6 +53,7 @@
 /* every folder carries its own tab; side by side they read as one row of folder tabs */
 .mf__tab {
   position: absolute;
+  z-index: 1; /* tabs paint over their folder's top shadow */
   bottom: 100%;
   left: calc(2% + var(--i) * 19.4%);
   width: 18%;
@@ -69,7 +70,7 @@
   font-size: clamp(0.8rem, 0.88vw, 1rem);
   text-align: left;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.5),
     inset 0 -8px 12px -10px rgb(60 40 15 / 0.35),
@@ -78,10 +79,17 @@
     translate 0.35s var(--ease-out),
     background-color 0.35s ease,
     color 0.35s ease,
-    box-shadow 0.35s ease;
+    box-shadow 0.35s ease,
+    height 0.35s var(--ease-out),
+    bottom 0.35s var(--ease-out);
 }
 .mf__tab:hover {
   translate: 0 -4px;
+}
+.mf__tab-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .mf__tab svg {
   flex: none;
@@ -92,13 +100,42 @@
   font-weight: 700;
   color: var(--bronze-700);
 }
-/* the open folder's tab joins its folder */
+/* the open folder's tab and the folder are one sheet: the same paper colour with no line between them,
+   and small curved corners where the tab runs into the folder */
 .mf.is-front .mf__tab {
+  bottom: calc(100% - 3px);
+  height: calc(var(--tabh) + 9px);
+  padding-bottom: 3px;
+  overflow: visible;
   background-color: #fcf6eb;
   color: var(--teal-950);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.8),
-    0 -6px 14px -10px rgb(60 40 15 / 0.35);
+  font-weight: 700;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.85);
+}
+.mf__tab::before,
+.mf__tab::after {
+  content: "";
+  position: absolute;
+  bottom: 3px; /* level with the folder's top edge */
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.mf.is-front .mf__tab::before,
+.mf.is-front .mf__tab::after {
+  opacity: 1;
+}
+.mf__tab::before {
+  right: 100%;
+  transform-origin: 100% 100%;
+  background: radial-gradient(circle at 0 0, transparent 11.5px, #fcf6eb 12px);
+}
+.mf__tab::after {
+  left: 100%;
+  transform-origin: 0 100%;
+  background: radial-gradient(circle at 100% 0, transparent 11.5px, #fcf6eb 12px);
 }
 .mf.is-front .mf__tab:hover {
   translate: none;
@@ -108,13 +145,11 @@
   position: relative;
   min-height: clamp(540px, 62vh, 660px);
   border-radius: 6px 6px var(--r-xl) var(--r-xl);
+  /* one clean paper colour along the top, exactly the open tab's, so tab and folder are one sheet */
   background:
-    radial-gradient(70% 60% at 85% 0%, rgb(179 143 106 / 0.12), transparent 70%),
-    repeating-linear-gradient(0deg, rgb(111 82 54 / 0.022) 0 2px, transparent 2px 5px),
-    linear-gradient(180deg, #fcf6eb, #f6ecd9);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.7),
-    0 -10px 24px -16px rgb(60 40 15 / 0.5);
+    radial-gradient(70% 60% at 85% 100%, rgb(179 143 106 / 0.12), transparent 70%),
+    linear-gradient(180deg, #fcf6eb 0, #fcf6eb 120px, #f5ead9 100%);
+  box-shadow: 0 -10px 24px -16px rgb(60 40 15 / 0.5);
 }
 
 .mf__content {
@@ -124,9 +159,6 @@
   height: 100%;
   min-height: inherit;
   padding: clamp(28px, 3.2vw, 56px);
-}
-.mf:not(.is-front) .mf__content {
-  visibility: hidden;
 }
 /* replays each time a folder comes to the front */
 .mf.is-front .mf__content > * {
@@ -342,6 +374,10 @@
   }
   .mf__tab .mf__tab-num {
     font-size: 0.85rem;
+  }
+  .mf__tab::before,
+  .mf__tab::after {
+    scale: 0.5; /* narrow tabs on phones: smaller curves, clear of the neighbouring tabs */
   }
   .mf__desk {
     min-height: 470px;

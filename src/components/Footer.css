@@ -191,6 +191,76 @@
   gap: 8px;
 }
 
+/* security & compliance strip */
+.foot__trust {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 36px;
+  margin-top: clamp(44px, 5vw, 72px);
+  padding: 18px 22px;
+  border-radius: 20px;
+  background: rgb(246 240 230 / 0.04);
+  box-shadow: inset 0 0 0 1px rgb(217 194 163 / 0.16);
+}
+.casa {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.casa__seal {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  aspect-ratio: 1;
+  border-radius: 47% 53% 50% 50% / 53% 47% 53% 47%;
+  background: radial-gradient(circle at 35% 30%, #e2c193, var(--bronze-600) 55%, var(--bronze-800));
+  color: var(--teal-950);
+  box-shadow:
+    inset 0 -3px 6px rgb(0 0 0 / 0.25),
+    inset 0 2px 4px rgb(255 255 255 / 0.3),
+    0 0 0 5px rgb(220 178 126 / 0.12);
+}
+.casa__text {
+  display: grid;
+  gap: 2px;
+}
+.casa__text strong {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--paper);
+}
+.casa__text em {
+  max-width: 46ch;
+  font-style: normal;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: rgb(246 240 230 / 0.62);
+}
+.foot__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+}
+.foot__facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.86rem;
+  color: rgb(246 240 230 / 0.78);
+}
+.foot__facts svg {
+  flex: none;
+  color: var(--gold);
+}
+
 .foot__bottom {
   position: relative;
   z-index: 1;
@@ -198,7 +268,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px 24px;
-  margin-top: clamp(56px, 6vw, 90px);
+  margin-top: 28px;
   padding-block: 24px;
   border-top: 1px solid rgb(217 194 163 / 0.14);
   font-size: 0.84rem;
@@ -256,6 +326,19 @@
   }
 }
 @media (max-width: 640px) {
+  .foot__trust {
+    padding: 16px;
+  }
+  .foot__facts {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .foot__facts li {
+    align-items: flex-start;
+  }
+  .foot__facts svg {
+    margin-top: 2px;
+  }
   .foot__env {
     height: calc(var(--flap) + 100px);
   }

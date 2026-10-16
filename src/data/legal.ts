@@ -5,13 +5,15 @@ export type LegalDoc = "privacy" | "terms";
 
 type Section = { id: string; title: string; body: string[]; list?: string[] };
 
+export type HighlightIcon = "ads" | "ai" | "lock" | "delete" | "content" | "charge" | "renew" | "law";
+
 type Doc = {
   title: string;
   script: string;
   updated: string;
   intro: string;
   official: string;
-  highlights: { title: string; text: string }[];
+  highlights: { title: string; text: string; icon: HighlightIcon }[];
   sections: Section[];
 };
 
@@ -32,10 +34,22 @@ export const legal: Record<LegalDoc, Doc> = {
       "How Botfinity Inc., the company behind SuperMIA and MailPilot, collects, uses and protects your personal data, including the email data you choose to connect.",
     official: "https://supermia.ai/privacy-policy/",
     highlights: [
-      { title: "Never used for ads", text: "Gmail data is used only for the automation you ask for. Never for advertising." },
-      { title: "Never trains general AI", text: "Your Gmail data is not used to train generalised AI models." },
-      { title: "Encrypted at rest", text: "Your data is protected with AES-256 encryption." },
-      { title: "Gone when you leave", text: "Gmail tokens deleted within 24 hours of revoking access. Account data within 30 days." },
+      {
+        icon: "ads",
+        title: "Never used for ads",
+        text: "Gmail data is used only for the automation you ask for. Never for advertising.",
+      },
+      {
+        icon: "ai",
+        title: "Never trains general AI",
+        text: "Your Gmail data is not used to train generalised AI models.",
+      },
+      { icon: "lock", title: "Encrypted at rest", text: "Your data is protected with AES-256 encryption." },
+      {
+        icon: "delete",
+        title: "Gone when you leave",
+        text: "Gmail tokens deleted within 24 hours of revoking access. Account data within 30 days.",
+      },
     ],
     sections: [
       {
@@ -73,7 +87,9 @@ export const legal: Record<LegalDoc, Doc> = {
       {
         id: "ai-gmail",
         title: "AI processing of Gmail data",
-        body: ["When you connect Gmail, MailPilot processes that data to draft replies and run the automation you ask for."],
+        body: [
+          "When you connect Gmail, MailPilot processes that data to draft replies and run the automation you ask for.",
+        ],
         list: [
           "Used only for user-requested automation",
           "Not used for advertising",
@@ -124,7 +140,9 @@ export const legal: Record<LegalDoc, Doc> = {
       {
         id: "updates",
         title: "Updates to this policy",
-        body: ["We may update this policy from time to time. The date at the top of this page shows when it last changed."],
+        body: [
+          "We may update this policy from time to time. The date at the top of this page shows when it last changed.",
+        ],
       },
     ],
   },
@@ -136,22 +154,42 @@ export const legal: Record<LegalDoc, Doc> = {
       "The agreement between you and Botfinity Inc. for using SuperMIA and its agents, including MailPilot. Please read it before you start.",
     official: "https://supermia.ai/terms/",
     highlights: [
-      { title: "Your content stays yours", text: "You keep ownership, and grant us only a limited licence to run the services." },
-      { title: "You stay in charge", text: "AI outputs can be wrong. Review them before you rely on them or send them." },
-      { title: "Monthly, auto-renewing", text: "Subscriptions bill monthly and renew automatically until you cancel." },
-      { title: "Texas law", text: "These terms are governed by the laws of Texas, USA." },
+      {
+        icon: "content",
+        title: "Your content stays yours",
+        text: "You keep ownership, and grant us only a limited licence to run the services.",
+      },
+      {
+        icon: "charge",
+        title: "You stay in charge",
+        text: "AI outputs can be wrong. Review them before you rely on them or send them.",
+      },
+      {
+        icon: "renew",
+        title: "Monthly, auto-renewing",
+        text: "Subscriptions bill monthly and renew automatically until you cancel.",
+      },
+      { icon: "law", title: "Texas law", text: "These terms are governed by the laws of Texas, USA." },
     ],
     sections: [
-      { id: "services", title: "The services", body: ["SuperMIA is a conversational AI platform. We may change, add or discontinue features over time."] },
+      {
+        id: "services",
+        title: "The services",
+        body: ["SuperMIA is a conversational AI platform. We may change, add or discontinue features over time."],
+      },
       {
         id: "eligibility",
         title: "Eligibility",
-        body: ["You must be able to form a binding contract to use the services. Additional restrictions apply to minors, and anyone under 13 may not use the services."],
+        body: [
+          "You must be able to form a binding contract to use the services. Additional restrictions apply to minors, and anyone under 13 may not use the services.",
+        ],
       },
       {
         id: "accounts",
         title: "Accounts and security",
-        body: ["Provide accurate information, keep your credentials safe and tell us about any unauthorised use. You are responsible for activity on your account."],
+        body: [
+          "Provide accurate information, keep your credentials safe and tell us about any unauthorised use. You are responsible for activity on your account.",
+        ],
       },
       {
         id: "acceptable-use",
@@ -162,7 +200,9 @@ export const legal: Record<LegalDoc, Doc> = {
       {
         id: "ai-outputs",
         title: "AI outputs and human oversight",
-        body: ["AI-generated output may be inaccurate. You are responsible for reviewing it and keeping appropriate human oversight before acting on it."],
+        body: [
+          "AI-generated output may be inaccurate. You are responsible for reviewing it and keeping appropriate human oversight before acting on it.",
+        ],
       },
       {
         id: "no-advice",
@@ -172,17 +212,23 @@ export const legal: Record<LegalDoc, Doc> = {
       {
         id: "consent",
         title: "Voice, messaging and end-user consent",
-        body: ["If you use the services to call or message people, you are responsible for obtaining any legally required consents and honouring opt-outs."],
+        body: [
+          "If you use the services to call or message people, you are responsible for obtaining any legally required consents and honouring opt-outs.",
+        ],
       },
       {
         id: "recording",
         title: "Call recording (optional)",
-        body: ["If you turn on call recording, you must give the required disclosures and obtain any consent the law requires."],
+        body: [
+          "If you turn on call recording, you must give the required disclosures and obtain any consent the law requires.",
+        ],
       },
       {
         id: "billing",
         title: "Subscriptions, billing, auto-renewal and taxes",
-        body: ["Subscriptions are billed monthly and renew automatically until cancelled. Fees are non-refundable, past-due accounts may be restricted, and applicable taxes are your responsibility."],
+        body: [
+          "Subscriptions are billed monthly and renew automatically until cancelled. Fees are non-refundable, past-due accounts may be restricted, and applicable taxes are your responsibility.",
+        ],
       },
       {
         id: "trials",
@@ -192,33 +238,81 @@ export const legal: Record<LegalDoc, Doc> = {
       {
         id: "third-party",
         title: "Third-party services and integrations",
-        body: ["The services connect to third-party providers, such as email platforms. We are not responsible for those third-party services."],
+        body: [
+          "The services connect to third-party providers, such as email platforms. We are not responsible for those third-party services.",
+        ],
       },
       {
         id: "data",
         title: "Data, privacy and retention",
-        body: ["Our Privacy Policy explains how we handle personal data. These terms define Customer Data and Usage Data and cover model training and retention. Customer Data is generally kept for up to 90 days after termination."],
+        body: [
+          "Our Privacy Policy explains how we handle personal data. These terms define Customer Data and Usage Data and cover model training and retention. Customer Data is generally kept for up to 90 days after termination.",
+        ],
       },
-      { id: "content-licence", title: "User content licence", body: ["You keep ownership of your content and grant us a limited licence to use it to operate the services."] },
-      { id: "ip", title: "Intellectual property", body: ["We own the services. You receive a limited, revocable licence to use them under these terms."] },
-      { id: "feedback", title: "Feedback", body: ["If you send us feedback, we may use it without restriction or compensation."] },
-      { id: "sla", title: "Service levels", body: ["Uptime commitments apply only under a separate, signed enterprise agreement."] },
+      {
+        id: "content-licence",
+        title: "User content licence",
+        body: ["You keep ownership of your content and grant us a limited licence to use it to operate the services."],
+      },
+      {
+        id: "ip",
+        title: "Intellectual property",
+        body: ["We own the services. You receive a limited, revocable licence to use them under these terms."],
+      },
+      {
+        id: "feedback",
+        title: "Feedback",
+        body: ["If you send us feedback, we may use it without restriction or compensation."],
+      },
+      {
+        id: "sla",
+        title: "Service levels",
+        body: ["Uptime commitments apply only under a separate, signed enterprise agreement."],
+      },
       {
         id: "termination",
         title: "Suspension and termination",
-        body: ["We may suspend or end access for violations, security risk or non-payment. Some sections continue to apply after termination."],
+        body: [
+          "We may suspend or end access for violations, security risk or non-payment. Some sections continue to apply after termination.",
+        ],
       },
       { id: "disclaimers", title: "Disclaimers", body: ["The services are provided “as is” and “as available”."] },
       {
         id: "liability",
         title: "Limitation of liability",
-        body: ["Indirect damages are excluded. Our total liability is limited to the fees you paid in the three months before the claim, or $100 if you paid nothing."],
+        body: [
+          "Indirect damages are excluded. Our total liability is limited to the fees you paid in the three months before the claim, or $100 if you paid nothing.",
+        ],
       },
-      { id: "indemnification", title: "Indemnification", body: ["You agree to indemnify us against claims arising from your use of the services."] },
-      { id: "dmca", title: "Copyright complaints (DMCA)", body: ["If you believe content infringes your copyright, you can send us a notice. The official terms explain what to include."] },
-      { id: "export", title: "Export compliance and sanctions", body: ["You may not use the services where U.S. export control or sanctions laws prohibit it."] },
-      { id: "law", title: "Governing law and venue", body: ["These terms are governed by the laws of Texas. Disputes are heard in the state or federal courts located in Texas."] },
-      { id: "changes", title: "Changes to these terms", body: ["Updates take effect when posted. Continuing to use the services means you accept them."] },
+      {
+        id: "indemnification",
+        title: "Indemnification",
+        body: ["You agree to indemnify us against claims arising from your use of the services."],
+      },
+      {
+        id: "dmca",
+        title: "Copyright complaints (DMCA)",
+        body: [
+          "If you believe content infringes your copyright, you can send us a notice. The official terms explain what to include.",
+        ],
+      },
+      {
+        id: "export",
+        title: "Export compliance and sanctions",
+        body: ["You may not use the services where U.S. export control or sanctions laws prohibit it."],
+      },
+      {
+        id: "law",
+        title: "Governing law and venue",
+        body: [
+          "These terms are governed by the laws of Texas. Disputes are heard in the state or federal courts located in Texas.",
+        ],
+      },
+      {
+        id: "changes",
+        title: "Changes to these terms",
+        body: ["Updates take effect when posted. Continuing to use the services means you accept them."],
+      },
     ],
   },
 };

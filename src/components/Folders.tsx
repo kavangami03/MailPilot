@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Check, Clock3, LayoutDashboard, PenLine, StickyNote, Users } from "lucide-react";
 import { features, type FeatureVisual } from "../data/content";
 import { gsap, getLenis, prefersReducedMotion, ScrollTrigger, useGSAP } from "../lib/motion";
@@ -73,6 +73,32 @@ export function Folders() {
   const root = useRef<HTMLElement>(null);
   const pin = useRef<HTMLDivElement>(null);
   const trigger = useRef<ScrollTrigger | null>(null);
+  const sheets = useRef<(HTMLElement | null)[]>([]);
+  const shown = useRef(active);
+
+  // Switching folders: the newly opened folder (its tab and page together) is pulled up in front as its own
+  // sheet, over the one it replaces, which stays put behind it until it's covered.
+  useLayoutEffect(() => {
+    if (shown.current === active) return;
+    shown.current = active;
+    const el = sheets.current[active];
+    if (!el || prefersReducedMotion()) return;
+    const others = sheets.current.filter((s): s is HTMLElement => !!s && s !== el);
+    gsap.killTweensOf(others);
+    gsap.set(others, { clearProps: "transform,opacity,visibility" });
+    gsap.fromTo(
+      el,
+      { y: 28, autoAlpha: 0 },
+      {
+        y: 0,
+        autoAlpha: 1,
+        duration: 0.55,
+        ease: "power3.out",
+        overwrite: true,
+        clearProps: "transform,opacity,visibility",
+      },
+    );
+  }, [active]);
   const n = features.length;
 
   // Desktop: the folder pins and scrolling opens the next tab, an equal stretch of scroll each.
@@ -177,6 +203,9 @@ export function Folders() {
                   return (
                     <article
                       key={f.id}
+                      ref={(el) => {
+                        sheets.current[i] = el;
+                      }}
                       className={`mf ${front ? "is-front" : ""}`}
                       style={{ ["--i" as string]: i, zIndex: front ? n + 1 : n - i }}
                     >
@@ -190,7 +219,7 @@ export function Folders() {
                       >
                         <span className="mf__tab-num">{f.n}</span>
                         <Icon size={15} />
-                        {m.tab}
+                        <span className="mf__tab-label">{m.tab}</span>
                       </button>
 
                       {/* every folder is filled, so the folder keeps one height whichever is open */}

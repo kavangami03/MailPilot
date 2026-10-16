@@ -26,13 +26,39 @@ const U = 0.02; // drawing units → scene units
 const MID = 91.25; // drawing y of the model's vertical centre
 const y3 = (y: number) => (MID - y) * U;
 const FACE_TILT = -1.05; // radians: how far it tips to show you its seal
+const CAM_Y = 1.0;
+const CAM_Z = 9.4;
+// while it's held or pressing it tips toward you (about 62°), so its seal faces the page
+const PRESS_TILT = 1.08;
 const FACE_SPIN = Math.PI / 2; // turn that brings the engraving upright when it tips toward you
 
 // slim turned walnut handle: (radius, y) from the rounded top down to the brass ferrule
 const HANDLE: [number, number][] = [
-  [0, 6], [4.2, 6.8], [7, 8.8], [8.8, 12], [9.5, 15.5], [8.9, 19], [7, 22], [5.6, 24],
-  [6.8, 25.6], [8.2, 27.5], [7.2, 29.5], [6.6, 31.5], [7.8, 36], [9.6, 46], [10.8, 58], [11.2, 70],
-  [10.8, 82], [9.8, 94], [8.6, 104], [7.6, 112], [7.2, 117], [8.4, 119.5], [9.2, 122], [9.4, 125], [9.4, 129],
+  [0, 6],
+  [4.2, 6.8],
+  [7, 8.8],
+  [8.8, 12],
+  [9.5, 15.5],
+  [8.9, 19],
+  [7, 22],
+  [5.6, 24],
+  [6.8, 25.6],
+  [8.2, 27.5],
+  [7.2, 29.5],
+  [6.6, 31.5],
+  [7.8, 36],
+  [9.6, 46],
+  [10.8, 58],
+  [11.2, 70],
+  [10.8, 82],
+  [9.8, 94],
+  [8.6, 104],
+  [7.6, 112],
+  [7.2, 117],
+  [8.4, 119.5],
+  [9.2, 122],
+  [9.4, 125],
+  [9.4, 129],
 ];
 
 const makeCanvas = (w: number, h: number) => {
@@ -214,20 +240,63 @@ export default function Stamp3D({ onReady }: { onReady: () => void }) {
     scene.add(key, rim, fill);
 
     const camera = new PerspectiveCamera(24, 1, 0.1, 50);
-    camera.position.set(0, 1.0, 9.4);
+    camera.position.set(0, CAM_Y, CAM_Z);
     camera.lookAt(0, 0.02, 0);
 
     const wood = woodTexture();
     const turned = turnedTexture();
     const knurl = knurlTexture();
     const rings = ringsTexture();
-    const woodMat = new MeshPhysicalMaterial({ map: wood, color: 0xb08c72, roughness: 0.4, clearcoat: 1, clearcoatRoughness: 0.14 }); // walnut under lacquer
-    const brass = new MeshPhysicalMaterial({ color: 0xc9a06a, metalness: 1, roughness: 1, roughnessMap: turned, envMapIntensity: 1.25 });
-    const brassBright = new MeshPhysicalMaterial({ color: 0xe2c08a, metalness: 1, roughness: 0.2, envMapIntensity: 1.35 });
+    const woodMat = new MeshPhysicalMaterial({
+      map: wood,
+      color: 0xb08c72,
+      roughness: 0.4,
+      clearcoat: 1,
+      clearcoatRoughness: 0.14,
+    }); // walnut under lacquer
+    const brass = new MeshPhysicalMaterial({
+      color: 0xc9a06a,
+      metalness: 1,
+      roughness: 1,
+      roughnessMap: turned,
+      envMapIntensity: 1.25,
+    });
+    const brassBright = new MeshPhysicalMaterial({
+      color: 0xe2c08a,
+      metalness: 1,
+      roughness: 0.2,
+      envMapIntensity: 1.35,
+    });
     const brassDark = new MeshPhysicalMaterial({ color: 0x8f6c45, metalness: 1, roughness: 0.42 });
-    const headSide = new MeshPhysicalMaterial({ color: 0xc9a06a, metalness: 1, roughness: 0.4, bumpMap: knurl, bumpScale: 1, envMapIntensity: 1.2 });
-    const headTop = new MeshPhysicalMaterial({ color: 0xd2ab73, metalness: 1, roughness: 1, roughnessMap: rings, envMapIntensity: 1.3 });
-    const disposables: { dispose: () => void }[] = [wood, turned, knurl, rings, woodMat, brass, brassBright, brassDark, headSide, headTop, envTarget, pmrem];
+    const headSide = new MeshPhysicalMaterial({
+      color: 0xc9a06a,
+      metalness: 1,
+      roughness: 0.4,
+      bumpMap: knurl,
+      bumpScale: 1,
+      envMapIntensity: 1.2,
+    });
+    const headTop = new MeshPhysicalMaterial({
+      color: 0xd2ab73,
+      metalness: 1,
+      roughness: 1,
+      roughnessMap: rings,
+      envMapIntensity: 1.3,
+    });
+    const disposables: { dispose: () => void }[] = [
+      wood,
+      turned,
+      knurl,
+      rings,
+      woodMat,
+      brass,
+      brassBright,
+      brassDark,
+      headSide,
+      headTop,
+      envTarget,
+      pmrem,
+    ];
 
     const pivot = new Group(); // tilt and the face-reveal turn
     const model = new Group(); // spins about the stamp's own axis
@@ -240,7 +309,8 @@ export default function Stamp3D({ onReady }: { onReady: () => void }) {
       disposables.push(mesh.geometry);
       return mesh;
     };
-    const ring = (r: number, tube: number, y: number, mat: MeshPhysicalMaterial) => add(new Mesh(new TorusGeometry(r * U, tube * U, 16, 96), mat), y, Math.PI / 2);
+    const ring = (r: number, tube: number, y: number, mat: MeshPhysicalMaterial) =>
+      add(new Mesh(new TorusGeometry(r * U, tube * U, 16, 96), mat), y, Math.PI / 2);
 
     // walnut handle: the outline spun on a lathe (listed bottom to top so its faces point outward)
     const outline = new SplineCurve(HANDLE.map(([r, y]) => new Vector2(r * U, y3(y))))
@@ -256,7 +326,10 @@ export default function Stamp3D({ onReady }: { onReady: () => void }) {
     // neck flaring into the seal head
     add(new Mesh(new CylinderGeometry(7.6 * U, 10.5 * U, 11.5 * U, 96), brass), 157.75);
     // seal head: knurled edge, machined top, rounded top edge, engraved face underneath
-    const head = add(new Mesh(new CylinderGeometry(27 * U, 26.4 * U, 13 * U, 128, 1, false), [headSide, headTop, brassDark]), 170);
+    const head = add(
+      new Mesh(new CylinderGeometry(27 * U, 26.4 * U, 13 * U, 128, 1, false), [headSide, headTop, brassDark]),
+      170,
+    );
     ring(26.6, 1.35, 163.6, brassBright);
     ring(26.2, 0.9, 176.4, brassDark);
 
@@ -265,7 +338,15 @@ export default function Stamp3D({ onReady }: { onReady: () => void }) {
       .then((img) => {
         if (disposed) return;
         const t = faceTextures(img);
-        const face = new MeshPhysicalMaterial({ map: t.color, metalness: 1, roughness: 1, roughnessMap: t.rough, bumpMap: t.bump, bumpScale: 3, envMapIntensity: 1.3 });
+        const face = new MeshPhysicalMaterial({
+          map: t.color,
+          metalness: 1,
+          roughness: 1,
+          roughnessMap: t.rough,
+          bumpMap: t.bump,
+          bumpScale: 3,
+          envMapIntensity: 1.3,
+        });
         disposables.push(t.color, t.rough, t.bump, face);
         head.material = [headSide, headTop, face];
       })
@@ -309,6 +390,7 @@ export default function Stamp3D({ onReady }: { onReady: () => void }) {
     let last = performance.now();
     let spin = 0;
     let reveal = 0;
+    let held = 0;
     const start = last;
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
@@ -320,17 +402,19 @@ export default function Stamp3D({ onReady }: { onReady: () => void }) {
       const showOff = t % 12 > 9.4 && t % 12 < 11.2;
       const target = !busy && (hover || showOff) ? 1 : 0;
       reveal += (target - reveal) * Math.min(1, dt * 5);
+      held += ((busy ? 1 : 0) - held) * Math.min(1, dt * 7);
       // spin while upright; while revealing, settle on the turn that shows the engraving upright
       if (target) {
         const goal = FACE_SPIN + Math.round((spin - FACE_SPIN) / (Math.PI * 2)) * Math.PI * 2;
         spin += (goal - spin) * Math.min(1, dt * 5);
-      } else spin += dt * 0.16; // a slow, calm turn (about 40 seconds a revolution)
+      } else if (!busy) spin += dt * 0.16; // a slow, calm turn (about 40 seconds a revolution)
       model.rotation.y = spin;
       tilt.x += (tilt.tx - tilt.x) * 0.07;
       tilt.z += (tilt.tz - tilt.z) * 0.07;
-      pivot.rotation.x = tilt.x * (1 - reveal) + FACE_TILT * reveal;
-      pivot.rotation.z = tilt.z * (1 - reveal);
-      pivot.position.y = Math.sin(t * 1.3) * 0.025 * (1 - reveal) + reveal * 0.35;
+      const restX = tilt.x * (1 - reveal) + FACE_TILT * reveal;
+      pivot.rotation.x = restX * (1 - held) + PRESS_TILT * held;
+      pivot.rotation.z = tilt.z * (1 - reveal) * (1 - held);
+      pivot.position.y = (Math.sin(t * 1.3) * 0.025 * (1 - reveal) + reveal * 0.35) * (1 - held);
       renderer.render(scene, camera);
       if (!ready) {
         ready = true;

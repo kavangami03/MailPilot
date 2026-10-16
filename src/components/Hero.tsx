@@ -117,7 +117,7 @@ export function Hero() {
           .fromTo(q(".env2-shadow, .env2-back, .env2-flap, .env2-front"), { yPercent: 150, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, 2.05)
           // in through the opening: in front of the envelope's inside, behind its pockets
           .to(lt, { y: () => geo().inside, rotation: 0, duration: 0.6 }, 2.9)
-          .set(q(".env2-flap"), { zIndex: 4 }, 3.55)
+          .set(q(".env2-flap"), { zIndex: 5 }, 3.55)
           .fromTo(q(".env2-flap__in"), { rotateX: 180 }, { rotateX: 0, duration: 0.45, ease: "power2.in" }, 3.6)
           .to(q(".lt__tilt"), { autoAlpha: 0, duration: 0.05 }, 4.0)
           .fromTo(q(".env2-seal .wax"), { scale: 2.6, autoAlpha: 0, rotate: -40 }, { scale: 1, autoAlpha: 1, rotate: -6, duration: 0.32, ease: "back.out(2)" }, 4.05)

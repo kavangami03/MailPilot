@@ -487,12 +487,12 @@
   filter: blur(18px);
 }
 .env2-back {
-  z-index: 1;
+  z-index: 1; /* the inside of the envelope: under the letter, so it stays visible as it slides in */
   border-radius: 6px;
   box-shadow: 0 2px 0 rgb(0 0 0 / 0.15);
 }
 .env2-front {
-  z-index: 3;
+  z-index: 4;
   border-radius: 6px;
 }
 /* airmail edge around the envelope */
@@ -502,6 +502,25 @@
   inset: 0;
   border-radius: 6px;
   border: 5px solid transparent;
+  border-top-width: 0; /* the top edge's stripe is on the back, behind the letter */
+  background: repeating-linear-gradient(-45deg, var(--teal-800) 0 10px, #efe3cd 10px 15px, var(--bronze-500) 15px 25px, #efe3cd 25px 30px) border-box;
+  -webkit-mask:
+    linear-gradient(#000 0 0) padding-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) padding-box exclude,
+    linear-gradient(#000 0 0);
+  opacity: 0.9;
+}
+/* the top edge of the envelope's opening: behind the letter as it slides in */
+.env2-back::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 6px;
+  border: 0 solid transparent;
+  border-top-width: 5px;
   background: repeating-linear-gradient(-45deg, var(--teal-800) 0 10px, #efe3cd 10px 15px, var(--bronze-500) 15px 25px, #efe3cd 25px 30px) border-box;
   -webkit-mask:
     linear-gradient(#000 0 0) padding-box,
@@ -530,7 +549,7 @@
   transform: translateY(0.4px);
 }
 .env2-flap {
-  z-index: 1;
+  z-index: 1; /* under the letter while open; it goes on top only to close over it */
 }
 .env2-flap__in {
   position: absolute;
@@ -538,7 +557,7 @@
   transform-origin: 50% 0;
 }
 .env2-seal {
-  z-index: 5;
+  z-index: 6;
   opacity: 1;
   visibility: visible;
 }
@@ -573,7 +592,7 @@
   left: 0;
   right: 0;
   top: 40%;
-  z-index: 6;
+  z-index: 7;
   text-align: center;
   font-family: var(--font-display);
   font-weight: 700;
