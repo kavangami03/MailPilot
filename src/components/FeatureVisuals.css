@@ -1,0 +1,325 @@
+/* ================= Feature UI cards ================= */
+.fv {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  font-size: clamp(0.78rem, 0.74vw, 0.9rem);
+}
+.fv__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.fv__head strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05em;
+  color: var(--teal-950);
+}
+.fv__head strong svg {
+  color: var(--bronze-600);
+}
+.fv__meta {
+  font-size: 0.9em;
+  color: var(--ink-4);
+}
+.fv__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.fv__wait,
+.fv__ok {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+.fv__wait {
+  color: var(--bronze-700);
+}
+.fv__ok {
+  color: var(--teal-600);
+}
+.fv-bar {
+  display: block;
+  height: 5px;
+  border-radius: 9px;
+  background: var(--paper-2);
+  overflow: hidden;
+}
+.fv-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--teal-600);
+  transform-origin: left;
+}
+.fv-bar i.is-cool {
+  background: var(--bronze-500);
+}
+
+/* Voice */
+.fv-seg {
+  display: inline-flex;
+  justify-self: start;
+  padding: 3px;
+  border-radius: 11px;
+  background: var(--paper-2);
+}
+.fv-seg button {
+  padding: 6px 13px;
+  border-radius: 8px;
+  font-size: 0.95em;
+  font-weight: 600;
+  color: var(--ink-3);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+.fv-seg button.is-on {
+  background: #fff;
+  color: var(--teal-900);
+  box-shadow: 0 1px 4px rgb(16 60 61 / 0.18);
+}
+.fv-voice__draft {
+  min-height: 6.2em;
+  font-size: 1.04em;
+  line-height: 1.55;
+  color: var(--ink);
+  animation: fv-in 0.45s var(--ease-out);
+}
+@keyframes fv-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* Relationships */
+.fv-rel {
+  display: grid;
+  gap: 2px;
+}
+.fv-rel li {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 96px;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 8px;
+  border-radius: 10px;
+}
+.fv-rel li.is-focus {
+  background: var(--bronze-100);
+}
+.fv-rel .avatar {
+  width: 30px;
+  height: 30px;
+  font-size: 0.66rem;
+}
+.fv-rel__who {
+  display: grid;
+  min-width: 0;
+  line-height: 1.3;
+}
+.fv-rel__who em {
+  font-style: normal;
+  font-size: 0.9em;
+  color: var(--ink-4);
+}
+.fv-rel__score {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+.fv-rel__score b {
+  font-weight: 700;
+}
+.fv-rel__next {
+  display: grid;
+  gap: 2px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--teal-900);
+  color: var(--paper);
+}
+.fv-rel__next span {
+  font-size: 0.85em;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+/* Follow-ups */
+.fv-rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.fv-rules .chip {
+  height: 24px;
+  font-size: 0.88em;
+}
+.fv-steps {
+  display: grid;
+}
+.fv-steps li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 12px;
+  padding-bottom: 10px;
+}
+.fv-steps li:last-child {
+  padding-bottom: 0;
+}
+.fv-steps li::before {
+  content: "";
+  position: absolute;
+  left: 9.5px;
+  top: 22px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-strong);
+}
+.fv-steps li:last-child::before {
+  display: none;
+}
+.fv-steps__node {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: inset 0 0 0 1.5px var(--line-strong);
+}
+.fv-steps .is-done .fv-steps__node {
+  background: var(--teal-800);
+  color: var(--paper);
+  box-shadow: none;
+}
+.fv-steps .is-active .fv-steps__node {
+  box-shadow:
+    inset 0 0 0 1.5px var(--bronze-500),
+    0 0 0 4px var(--bronze-100);
+}
+.fv-steps .is-active .fv-steps__node::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bronze-500);
+}
+.fv-steps em {
+  font-style: normal;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--ink-4);
+}
+.fv-steps p {
+  font-weight: 600;
+}
+.fv-steps .is-next p {
+  color: var(--ink-3);
+}
+.fv-steps blockquote {
+  margin-top: 6px;
+  padding: 8px 11px;
+  border-radius: 10px;
+  border-left: 2px solid var(--bronze-500);
+  background: var(--paper);
+  color: var(--ink-2);
+}
+
+/* Overview */
+.fv-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.fv-kpis > div {
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--paper);
+}
+.fv-kpis dt {
+  font-size: 0.85em;
+  color: var(--ink-3);
+}
+.fv-kpis dd {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.45em;
+  letter-spacing: -0.02em;
+  color: var(--teal-950);
+}
+.fv-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  height: 92px;
+  padding-bottom: 1px;
+  border-bottom: 1px solid var(--line);
+}
+.fv-chart i {
+  flex: 1;
+  height: 100%;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--teal-600), var(--teal-300));
+  transform-origin: bottom;
+}
+.fv-chart i:last-child {
+  background: linear-gradient(180deg, var(--bronze-500), var(--bronze-300));
+}
+.fv-waiting {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+.fv-waiting span:first-child {
+  margin-right: auto;
+  font-size: 0.85em;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.fv-waiting .avatar {
+  width: 26px;
+  height: 26px;
+  font-size: 0.62rem;
+}
+.fv-waiting em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--ink-4);
+}
+
+/* Instructions — a pinned thread note */
+.fv-note {
+  background:
+    repeating-linear-gradient(180deg, transparent 0 31px, rgb(16 60 61 / 0.08) 31px 32px) 0 52px / 100% calc(100% - 100px) no-repeat,
+    #fffaf0;
+}
+.fv-note__lines {
+  display: grid;
+  padding: 4px 4px 8px;
+}
+.fv-note__lines li {
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: 1.85em;
+  line-height: 1.12;
+  color: var(--teal-800);
+}
+

@@ -1,0 +1,502 @@
+.day {
+  position: relative;
+  z-index: 1;
+  overflow-x: clip;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgb(16 60 61 / 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(16 60 61 / 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+.day__pin {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(36px, 5vw, 100px);
+  padding-block: clamp(100px, 12vh, 140px) clamp(40px, 6vh, 70px);
+}
+.day__side {
+  display: grid;
+  gap: 24px;
+  justify-items: start;
+}
+.day__side .h2 {
+  max-width: 13ch;
+}
+
+/* ---------- Dial + before/after snapshot ---------- */
+.day__visual {
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 3vw, 56px);
+  margin-top: 8px;
+}
+.dial {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+.dial svg {
+  width: clamp(200px, 17vw, 300px);
+  transform: rotate(0deg);
+  overflow: visible;
+}
+.dial circle {
+  fill: none;
+  stroke-width: 22;
+}
+.dial__track {
+  stroke: rgb(16 60 61 / 0.08);
+}
+.dial__tick {
+  stroke: rgb(16 60 61 / 0.35);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.dial__mail {
+  stroke: var(--alert);
+  stroke-linecap: butt;
+}
+.dial__free {
+  stroke: var(--teal-600);
+}
+.dial__center {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(200px, 17vw, 300px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+.dial__state {
+  grid-area: 1 / 1;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  max-width: 62%;
+}
+.dial__state b {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.6rem, 3.6vw, 4.2rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--teal-950);
+}
+.dial__state small {
+  font-size: 0.4em;
+  color: var(--alert);
+}
+.dial__state > span:not(.script) {
+  font-size: 0.8rem;
+  line-height: 1.35;
+  color: var(--ink-3);
+}
+.dial__state--after {
+  opacity: 0;
+  visibility: hidden;
+}
+.dial__state--after .script {
+  font-size: 1.7rem;
+  color: var(--bronze-600);
+}
+.dial__back {
+  color: var(--teal-700) !important;
+}
+.dial__legend {
+  display: flex;
+  gap: 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.dial__legend li {
+  display: flex;
+  white-space: nowrap;
+  align-items: center;
+  gap: 8px;
+}
+.dial__legend i {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+.dial__legend .is-mail {
+  background: var(--alert);
+}
+.dial__legend .is-free {
+  background: var(--teal-600);
+}
+
+/* polaroid that develops from "before" to "after" (rotation is set by GSAP) */
+.snap {
+  position: relative;
+  flex: none;
+  width: clamp(150px, 11vw, 210px);
+  margin: 0;
+  padding: 10px 10px 0;
+  background: #fffdf8;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.08),
+    0 30px 50px -24px rgb(60 40 15 / 0.55);
+}
+.snap__tape {
+  position: absolute;
+  left: 50%;
+  top: -12px;
+  z-index: 2;
+  width: 90px;
+  height: 24px;
+  translate: -50% 0;
+  rotate: 4deg;
+  background: rgb(233 218 196 / 0.8);
+}
+.snap__img {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--teal-900);
+}
+.snap__img .photo {
+  position: absolute;
+  inset: 0;
+}
+.snap__after {
+  clip-path: inset(0% 0% 100% 0%);
+}
+.snap figcaption {
+  display: grid;
+  padding: 10px 2px 12px;
+  text-align: center;
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(1.05rem, 1.1vw, 1.3rem);
+  line-height: 1.1;
+}
+.snap__cap {
+  grid-area: 1 / 1;
+}
+.snap__cap--before {
+  color: var(--alert);
+}
+.snap__cap--after {
+  color: var(--teal-700);
+  opacity: 0;
+  visibility: hidden;
+}
+.day.is-after .snap__after {
+  clip-path: none;
+}
+.day.is-after .snap__cap--before {
+  visibility: hidden;
+}
+.day.is-after .snap__cap--after {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ---------- The diary page ---------- */
+.diary {
+  --rowh: clamp(46px, 5.6vh, 60px);
+  position: relative;
+  padding: 34px clamp(20px, 2.6vw, 40px) 26px;
+  border-radius: 10px 10px 18px 18px;
+  background:
+    radial-gradient(80% 60% at 20% 0%, rgb(255 255 255 / 0.7), transparent 70%),
+    #fffaf0;
+  box-shadow:
+    0 0 0 1px rgb(111 82 54 / 0.12),
+    0 4px 0 -1px #f1e6d2,
+    0 8px 0 -2px #e9dcc6,
+    0 50px 80px -40px rgb(60 40 15 / 0.5);
+  rotate: 1deg;
+}
+.diary__rings {
+  position: absolute;
+  top: -14px;
+  left: 6%;
+  right: 6%;
+  display: flex;
+  justify-content: space-between;
+}
+.diary__rings i {
+  width: 14px;
+  height: 30px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #8b939a, #e9eef0 45%, #7d868c);
+  box-shadow: 0 3px 4px rgb(0 0 0 / 0.25);
+}
+.diary__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgb(16 60 61 / 0.7);
+}
+.diary__day {
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 3vw, 3.2rem);
+  line-height: 0.9;
+  color: var(--teal-900);
+}
+.diary__meta {
+  display: grid;
+  justify-items: end;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--teal-900);
+}
+.diary__meta em {
+  font-style: normal;
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+
+.diary__page {
+  position: relative;
+  padding-left: 64px;
+}
+.diary__page::before {
+  content: "";
+  position: absolute;
+  left: 52px;
+  top: 0;
+  bottom: 0;
+  width: 1.5px;
+  background: rgb(181 82 59 / 0.45);
+}
+.diary__row {
+  position: relative;
+  height: var(--rowh);
+  border-bottom: 1px solid rgb(16 60 61 / 0.1);
+}
+.diary__hour {
+  position: absolute;
+  left: -64px;
+  top: 6px;
+  width: 44px;
+  text-align: right;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--teal-800);
+}
+.diary__hour small {
+  margin-left: 2px;
+  font-size: 0.7em;
+  color: var(--ink-4);
+}
+
+.chore,
+.calm {
+  position: absolute;
+  left: calc(64px + var(--col));
+  top: calc(var(--row) * var(--rowh) + var(--rowh) * 0.18);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 1.45vw, 1.6rem);
+  line-height: 1;
+  white-space: nowrap;
+}
+.chore {
+  color: #a5452e;
+}
+.chore svg:first-child {
+  flex: none;
+  color: #a5452e;
+  opacity: 0.8;
+}
+.strike {
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  top: 40%;
+  width: calc(100% + 8px);
+  height: 0.5em;
+  overflow: visible;
+  pointer-events: none;
+  clip-path: inset(-50% 100% -50% 0%);
+}
+.day.is-after .strike {
+  clip-path: none;
+}
+.strike path {
+  fill: none;
+  stroke: var(--teal-900);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.calm {
+  top: calc(var(--row) * var(--rowh) + var(--rowh) * 0.5);
+  color: var(--teal-700);
+  font-size: clamp(1.4rem, 1.6vw, 1.8rem);
+  clip-path: inset(-30% 100% -30% 0%);
+}
+.calm::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--teal-500);
+}
+
+/* Bronze rubber stamp */
+.rubber {
+  position: absolute;
+  right: 4%;
+  top: 19%;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  padding: 12px 22px;
+  border: 3px solid var(--bronze-600);
+  border-radius: 10px;
+  outline: 1.5px solid var(--bronze-600);
+  outline-offset: 3px;
+  color: var(--bronze-700);
+  background: rgb(255 250 240 / 0.6);
+  rotate: -12deg;
+  text-transform: uppercase;
+  mix-blend-mode: multiply;
+  opacity: 0;
+  visibility: hidden;
+}
+.rubber span {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+.rubber b {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.2vw, 2.4rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.day__caps {
+  display: grid;
+  margin-top: 18px;
+}
+.day__cap {
+  grid-area: 1 / 1;
+  font-size: 0.98rem;
+  color: var(--ink-3);
+}
+.day__cap b {
+  color: var(--teal-950);
+}
+.day__cap--after {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Reduced motion: show the tidy "after" page */
+.day.is-after .chore {
+  color: rgb(165 69 46 / 0.3);
+}
+.day.is-after .calm {
+  clip-path: none;
+}
+.day.is-after .rubber,
+.day.is-after .dial__state--after,
+.day.is-after .day__cap--after {
+  opacity: 1;
+  visibility: visible;
+}
+.day.is-after .dial__state--before,
+.day.is-after .day__cap--before {
+  display: none;
+}
+
+@media (max-width: 1060px) {
+  .day__pin {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .day__side .h2 {
+    max-width: none;
+  }
+}
+@media (max-width: 640px) {
+  .diary {
+    --rowh: 40px;
+    padding-inline: 14px;
+    rotate: 0deg;
+  }
+  .diary__page {
+    padding-left: 40px;
+  }
+  .diary__page::before {
+    left: 32px;
+  }
+  .diary__hour {
+    left: -42px;
+    width: 30px;
+    font-size: 0.8rem;
+  }
+  .chore,
+  .calm {
+    left: calc(40px + var(--col) * 0.4);
+    font-size: 1.05rem;
+  }
+  .chore svg:first-child {
+    display: none;
+  }
+  .dial svg,
+  .dial__center {
+    width: 150px;
+  }
+  .day__visual {
+    gap: 18px;
+  }
+  .snap {
+    width: 130px;
+  }
+  .dial__state b {
+    font-size: 1.75rem;
+  }
+  .dial__state > span:not(.script) {
+    font-size: 0.66rem;
+  }
+  .dial__state--after .script {
+    font-size: 1.2rem;
+  }
+  /* on phones the stamp lands on the page header instead of the entries */
+  .rubber {
+    top: -62px;
+    right: -2%;
+    padding: 6px 12px;
+  }
+  .rubber b {
+    font-size: 1.3rem;
+  }
+  .diary__meta {
+    display: none;
+  }
+  .rubber span {
+    font-size: 0.55rem;
+  }
+  .dial__legend {
+    gap: 12px;
+    font-size: 0.82rem;
+  }
+  .day__pin {
+    padding-block: 84px 40px;
+    gap: 24px;
+  }
+}

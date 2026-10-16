@@ -1,0 +1,17 @@
+# Dependencies & build output
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Local design-iteration backups and scratch screenshots
+legacy-v*/
+tmp-*.png
+
+# Environment & OS
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

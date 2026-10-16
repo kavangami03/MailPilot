@@ -1,0 +1,80 @@
+/* ------------------------------------------------------------------
+   MailPilot — design tokens (SuperMIA product family)
+   Colour comes only from the logo: Teal #103C3D · Bronze #B38F6A
+   Type follows the logo: Poppins (display) · Inter (UI) · Caveat (accent)
+------------------------------------------------------------------- */
+:root {
+  /* Teal ramp */
+  --teal-990: #041314;
+  --teal-950: #071e1f;
+  --teal-900: #0b2b2c;
+  --teal-850: #0e3435;
+  --teal-800: #103c3d; /* logo */
+  --teal-700: #175152;
+  --teal-600: #22696a;
+  --teal-500: #2f7e7d;
+  --teal-400: #4f8d89;
+  --teal-300: #8fb8b2;
+  --teal-200: #bfd6d1;
+  --teal-100: #e2edea;
+  --teal-50: #f0f6f4;
+
+  /* Bronze ramp */
+  --bronze-800: #6f5236;
+  --bronze-700: #8a6a49;
+  --bronze-600: #a07e5b;
+  --bronze-500: #b38f6a; /* logo */
+  --bronze-400: #c6a684;
+  --bronze-300: #d9c2a3;
+  --bronze-200: #e9dac4;
+  --bronze-100: #f3eadd;
+  --gold: #dcb27e; /* bright bronze for glows & accents on dark */
+
+  /* Paper & ink */
+  --paper: #f6f0e6;
+  --paper-2: #efe6d7;
+  --paper-3: #e6dac6;
+  --card: #fffdf9;
+  --ink: #0d1d1e;
+  --ink-2: #2b3c3c;
+  --ink-3: #5a6766;
+  --ink-4: #8a9493;
+
+  /* Semantic */
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --muted: var(--ink-3);
+  --line: rgb(13 29 30 / 0.09);
+  --line-strong: rgb(13 29 30 / 0.16);
+  --alert: #b5523b;
+  --alert-bg: #f6e2da;
+
+  /* Type */
+  --font-display: "Poppins", "Inter Variable", system-ui, sans-serif;
+  --font-body: "Inter Variable", "Inter", system-ui, sans-serif;
+  --font-script: "Caveat", "Segoe Script", cursive;
+
+  --fs-hero: clamp(2.5rem, 5.6vw, 6.9rem);
+  --fs-h2: clamp(2.1rem, 4.1vw, 4.9rem);
+  --fs-h3: clamp(1.45rem, 2vw, 2.35rem);
+  --fs-lead: clamp(1.02rem, 1.12vw, 1.3rem);
+
+  /* Space & shape */
+  --gutter: clamp(18px, 4vw, 80px);
+  --max: 1560px;
+  --inset: clamp(8px, 0.8vw, 14px); /* gap around inset panels */
+  --r-sm: 12px;
+  --r: 20px;
+  --r-lg: 28px;
+  --r-xl: clamp(26px, 2.6vw, 44px);
+
+  /* Elevation */
+  --shadow-card: 0 1px 2px rgb(7 30 31 / 0.06), 0 12px 32px -14px rgb(7 30 31 / 0.22);
+  --shadow-float: 0 2px 6px rgb(7 30 31 / 0.08), 0 30px 70px -26px rgb(7 30 31 / 0.45);
+  --shadow-glow: 0 18px 40px -16px rgb(179 143 106 / 0.75);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}

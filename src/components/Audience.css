@@ -1,0 +1,198 @@
+.aud__list {
+  position: relative;
+  border-top: 1px solid var(--line-strong);
+}
+.aud__row {
+  border-bottom: 1px solid var(--line-strong);
+}
+.aud__trigger {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) auto 44px;
+  align-items: center;
+  gap: 24px;
+  padding: clamp(22px, 2.8vw, 40px) 0;
+  text-align: left;
+}
+.aud__num {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--bronze-600);
+}
+.aud__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 4.6vw, 5.2rem);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  color: var(--teal-950);
+  transition:
+    color 0.35s ease,
+    transform 0.6s var(--ease-out);
+}
+.aud__tag {
+  max-width: 24ch;
+  font-size: 0.88rem;
+  color: var(--ink-3);
+  text-align: right;
+}
+.aud__arrow {
+  color: var(--teal-800);
+  transition:
+    transform 0.45s var(--ease-out),
+    color 0.3s ease;
+}
+.aud__row.is-open .aud__title {
+  color: var(--bronze-600);
+  transform: translateX(16px);
+}
+.aud__row.is-open .aud__arrow {
+  transform: rotate(45deg);
+  color: var(--bronze-600);
+}
+
+.aud__detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.6s var(--ease-out);
+}
+.aud__row.is-open .aud__detail {
+  grid-template-rows: 1fr;
+}
+.aud__detail > div {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 24px;
+  overflow: hidden;
+}
+.aud__detail > div > * {
+  margin-bottom: 36px;
+}
+.aud__mobile-photo {
+  display: none;
+}
+.aud__pain {
+  grid-column: 2;
+  max-width: 30ch;
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(1.6rem, 2.2vw, 2.4rem);
+  line-height: 1.15;
+  color: var(--teal-800);
+}
+.aud__gets {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+.aud__gets li {
+  display: flex;
+  gap: 10px;
+  color: var(--ink-2);
+}
+.aud__gets svg {
+  flex: none;
+  margin-top: 4px;
+  color: var(--bronze-600);
+}
+
+/* Cursor-following portrait */
+.aud__preview {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 230px;
+  height: 290px;
+  margin: -145px 0 0 -115px;
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.6;
+  transition:
+    opacity 0.3s ease,
+    scale 0.45s var(--ease-out);
+}
+.aud__list.is-hovering .aud__preview {
+  opacity: 1;
+  scale: 1;
+}
+.aud__card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 10px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -20px rgb(7 30 31 / 0.55);
+  opacity: 0;
+  rotate: -5deg;
+  transition:
+    opacity 0.3s ease,
+    rotate 0.5s var(--ease-out);
+}
+.aud__card.is-on {
+  opacity: 1;
+  rotate: 3deg;
+}
+.aud__card .photo,
+.aud__mobile-photo .photo {
+  position: absolute;
+  inset: 0;
+}
+.aud__initials {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 3rem;
+  color: rgb(217 194 163 / 0.5);
+}
+.aud__card-label {
+  position: relative;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--teal-900);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+@media (hover: none), (max-width: 860px) {
+  .aud__preview {
+    display: none;
+  }
+}
+@media (max-width: 860px) {
+  .aud__trigger {
+    grid-template-columns: 36px minmax(0, 1fr) 28px;
+    gap: 14px;
+  }
+  .aud__tag {
+    display: none;
+  }
+  .aud__title {
+    font-size: clamp(1.55rem, 7.4vw, 2.4rem);
+  }
+  .aud__row.is-open .aud__title {
+    transform: none;
+  }
+  .aud__detail > div {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .aud__detail > div > * {
+    margin-bottom: 0;
+  }
+  .aud__mobile-photo {
+    display: block;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
+    overflow: hidden;
+  }
+  .aud__pain {
+    grid-column: auto;
+  }
+  .aud__gets {
+    padding-bottom: 28px;
+  }
+}
