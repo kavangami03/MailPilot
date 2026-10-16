@@ -93,11 +93,23 @@ export function useHeadlineSplits(scope: RefObject<HTMLElement | null>) {
           if (cancelled) return;
           gsap.utils.toArray<HTMLElement>("[data-split]").forEach((el) => {
             const split = SplitText.create(el, { type: "lines", mask: "lines" });
-            const tl = gsap.timeline({ scrollTrigger: { trigger: el, start: "top 86%", once: true } });
-            tl.from(split.lines, { yPercent: 108, duration: 1.05, ease: "power4.out", stagger: 0.1 });
+            // room inside each line mask for descenders and the tall handwriting (layout unchanged)
+            gsap.set(split.masks, { paddingTop: "0.16em", paddingBottom: "0.26em", marginTop: "-0.16em", marginBottom: "-0.26em" });
+            const tl = gsap.timeline({
+              scrollTrigger: { trigger: el, start: "top 86%", once: true },
+              // then hand the heading back exactly as written: no masks or clips left to cut letters,
+              // and lines re-wrap naturally if the window is resized
+              onComplete: () => split.revert(),
+            });
+            tl.from(split.lines, { yPercent: 140, duration: 1.05, ease: "power4.out", stagger: 0.1 });
             const scripts = el.querySelectorAll(".script");
             if (scripts.length) {
-              tl.from(scripts, { clipPath: "inset(-20% 100% -20% 0%)", duration: 1.1, ease: "power2.inOut", stagger: 0.15 }, 0.35);
+              tl.fromTo(
+                scripts,
+                { clipPath: "inset(-60% 100% -60% -6%)" },
+                { clipPath: "inset(-60% -6% -60% -6%)", duration: 1.1, ease: "power2.inOut", stagger: 0.15, clearProps: "clipPath" },
+                0.35,
+              );
             }
             const scribbles = el.querySelectorAll(".scribble path");
             if (scribbles.length) tl.from(scribbles, { drawSVG: "0%", duration: 0.9, ease: "power2.out" }, 0.9);

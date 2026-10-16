@@ -57,8 +57,8 @@ export function Hero() {
 
       // ---- pointer: the letter tilts toward the cursor ----
       const tilt = q(".lt__tilt")[0] as HTMLElement;
-      const rx = gsap.quickTo(tilt, "rotateX", { duration: 1, ease: "power3.out" });
-      const ry = gsap.quickTo(tilt, "rotateY", { duration: 1, ease: "power3.out" });
+      const rx = gsap.quickTo(tilt, "rotationX", { duration: 1, ease: "power3.out" });
+      const ry = gsap.quickTo(tilt, "rotationY", { duration: 1, ease: "power3.out" });
       const onMove = (e: PointerEvent) => {
         if (e.pointerType !== "mouse") return;
         // keep the letter flat while the scroll scene is posting it
@@ -199,11 +199,11 @@ export function Hero() {
                     <i />
                   </span>
                   {/* named once for screen readers; the words are split for the animation */}
-                  <h1 className="lt__title" aria-label="Your inbox, answered in your voice.">
-                    <Words text="Your inbox, answered" />{" "}
+                  <h1 className="lt__title" aria-label="Every email answered. Every follow-up sent.">
+                    <Words text="Every email answered." />{" "}
                     <span className="scribble-wrap">
                       <span className="hw hw--script">
-                        <span className="hw__in script">in your voice.</span>
+                        <span className="hw__in script">Every follow-up sent.</span>
                       </span>
                       <Scribble />
                     </span>

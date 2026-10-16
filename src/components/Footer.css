@@ -1,7 +1,6 @@
 .foot {
   --flap: clamp(110px, 11vw, 190px);
   position: relative;
-  margin-top: clamp(40px, 5vw, 80px);
   background:
     radial-gradient(50% 40% at 50% 0%, rgb(34 105 106 / 0.45), transparent 70%),
     var(--teal-950);

@@ -6,6 +6,7 @@ Marketing site for **MailPilot AI**, the email agent by [SuperMIA](https://super
 
 - React 19, TypeScript and Vite (multi-page: home, `/privacy/`, `/terms/`)
 - GSAP 3 (ScrollTrigger, SplitText, DrawSVG) with Lenis smooth scroll on GSAP's ticker
+- three.js for the 3D seal stamp (loaded only when the Control section comes near)
 - Plain CSS with design tokens (`src/styles/tokens.css`)
 - Fonts via Fontsource: Poppins, Inter and Caveat
 

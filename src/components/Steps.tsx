@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { CalendarClock, Check, Inbox, Pin, Send, Snowflake, Sparkles } from "lucide-react";
+import { CalendarClock, Check, Clock3, PenLine, Pin, Plug, Send, Snowflake, Sparkles } from "lucide-react";
 import { steps } from "../data/content";
 import { Avatar, PlatformIcon, Scribble } from "./ui";
 import "./Steps.css";
@@ -136,6 +136,14 @@ function SceneReview() {
 
 const scenes = [ScenePersona, SceneConnect, SceneManage, SceneReview];
 
+// the four stages as the setup window's stepper shows them
+const STAGES = [
+  { label: "Persona", Icon: PenLine },
+  { label: "Connect", Icon: Plug },
+  { label: "Manage", Icon: Sparkles },
+  { label: "Review", Icon: Send },
+];
+
 export function Steps() {
   const [active, setActive] = useState(0);
   const [swipe, setSwipe] = useState(0);
@@ -176,15 +184,26 @@ export function Steps() {
         <div className="steps__grid">
           <div className="steps__visual" aria-hidden="true">
             <div className="steps__screen">
-              <div className="steps__screen-top">
+              <div className="sv__bar">
                 <span className="steps__lights">
                   <i />
                   <i />
                   <i />
                 </span>
-                <span className="steps__badge">
-                  Step 0{active + 1} · {steps[active].eta}
+                <span className="sv__title">MailPilot · Setup</span>
+                <span className="sv__count">
+                  Step 0{active + 1} <em>of 0{steps.length}</em>
                 </span>
+              </div>
+              <div className="sv__track">
+                <ol className="sv__steps" style={{ ["--p" as string]: active / (steps.length - 1) }}>
+                  {STAGES.map(({ label, Icon }, i) => (
+                    <li key={label} className={i < active ? "is-done" : i === active ? "is-on" : ""}>
+                      <span className="sv__node">{i < active ? <Check size={15} strokeWidth={3} /> : <Icon size={15} />}</span>
+                      <span className="sv__label">{label}</span>
+                    </li>
+                  ))}
+                </ol>
               </div>
               <div className="steps__scenes">
                 {scenes.map((Scene, i) => (
@@ -193,7 +212,19 @@ export function Steps() {
                   </div>
                 ))}
               </div>
-              <Inbox className="steps__watermark" size={220} strokeWidth={0.6} />
+              <div className="sv__foot">
+                <span className="sv__eta">
+                  <Clock3 size={15} /> {steps[active].eta}
+                </span>
+                <span className="sv__total">
+                  <span className="sv__meter">
+                    {steps.map((s, i) => (
+                      <i key={s.title} className={i <= active ? "is-on" : ""} />
+                    ))}
+                  </span>
+                  Under 20 minutes in total
+                </span>
+              </div>
             </div>
           </div>
 

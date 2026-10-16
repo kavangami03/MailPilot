@@ -1,5 +1,4 @@
 .cta {
-  padding-bottom: clamp(140px, 14vw, 220px);
   overflow-x: clip;
 }
 .cta__grid {

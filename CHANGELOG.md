@@ -12,9 +12,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New concept, **"Correspondence"**: MailPilot writes your letters. Every section has its own device (folding hero letter, 3.1-hour day timeline, product player, feature folders, wax-seal approval, fanned brochure pages, postage-stamp CTA, envelope footer).
 - Fonts now match the logo: Poppins, Inter and Caveat.
 - Real brochure pages rendered from the official PDF; existing workspace photos optimised; image slots auto-detect files in `src/assets/photos`.
-- IMAGE_PROMPTS.md rewritten as a story-led image brief; all requested images supplied, optimised and wired in (hero desk, before/after polaroid, five folders, crew, seal photo, MIA the fox, avatars, OG image).
-- Control redesigned as an approval desk: in-tray, desk mat with a draggable brass-and-walnut seal stamp, outbox with postmarked sent items, and a sliding Draft / Semi-auto switch.
-- The 3.1-hour day is now a diary page with a dial; chores are struck through and stamped "Handled by MailPilot".
+- IMAGE_PROMPTS.md rewritten as a story-led image brief; all requested images supplied, optimised and wired in (hero desk, before/after day photos, five folders, crew, seal photo, MIA the fox, avatars, OG image).
+- Control redesigned as an approval desk: in-tray, desk mat with a draggable seal stamp, outbox with postmarked sent items, and a sliding Draft / Semi-auto switch.
+- The seal stamp is now real 3D (three.js, loaded only as the section approaches): a turned walnut handle, a brass ferrule and a knurled seal head engraved with the MailPilot mark. It turns slowly, leans toward the cursor, tips its engraved face toward you on hover (and now and then by itself), and stands upright while it's dragged or pressed. Without WebGL, or with reduced motion, the drawn stamp stays.
+- "The 3.1-hour day" is a cinematic split stage, the same Tuesday twice: 6:40 pm without MailPilot (email notifications piling up over the photo, "3.1 hrs" counting up, a red day bar) and 5:45 pm with it (drafts approved at 9:00, "home by six", one review, a calm teal day bar). On scroll the left side plays out, MailPilot's seal stamps onto the seam, and the right side wipes open from it. On phones each day stacks: photo, notes, number, bar.
 - Brochure rebuilt as a 3D book, modelled on the JobHunter brochure: pinned on scroll, the cover opens and pages turn spread by spread while the chapter list tracks the open pages. It uses the new brochure PDF, hosted locally, and swipeable pages on small screens.
 - SuperMIA and Botfinity links point to supermia.ai and botfinity.ai.
 - Mobile pass down to 320px: removed horizontal overflow (DayStrip stamp, step cards), tighter section spacing, swipeable "How it works" cards, compact FAQ, and fixes to Who it's for, Final CTA, Footer, Brochure and Control.
@@ -22,7 +23,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New pages: `/privacy/` and `/terms/`, plain-language versions of the official SuperMIA documents, linking to the binding versions.
 - Every link and button shows a pointer cursor.
 - Entry loader: a gold envelope draws itself while a counter tracks real loading (fonts, hero photo, logos), the wax seal stamps on, and the screen parts along the fold to reveal the hero. The hero entrance now plays exactly as it's revealed, so the first load no longer shows a half-animated letter.
-- "The 3.1-hour day" redesigned as a day ribbon: seven email blocks (exactly 3.1 hrs) fill a 9am–6pm day, then MailPilot's seal sweeps across, collapsing them and growing real work in their place. Vertical planner on phones, with the after photo as the payoff.
 - Footer: the giant wordmark no longer swallows clicks on Privacy, Terms and SuperMIA; legal links are brighter.
 - Legal pages: the contact seal shows the full, centred MailPilot mark.
 - Sign-in links now go to mailpilot.supermia.ai.
@@ -31,6 +31,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Copy: removed every en and em dash from the site text.
 - SEO: every page is pre-rendered to static HTML at build time; keyword-targeted titles and descriptions; canonical links; Open Graph and Twitter cards; JSON-LD structured data (Organization, WebSite, SoftwareApplication with "Mail Pilot" as an alternate name, FAQPage, BreadcrumbList); generated sitemap.xml and robots.txt; a full favicon set and web manifest; descriptive alt text on content photos; the hero heading is no longer duplicated for crawlers.
 - Removed a dead data block left behind by an earlier cleanup.
+- Headings: the line-by-line reveal no longer cuts descenders (g, y) or the tops of the handwritten words. The masks get room during the animation and are removed when it finishes, so headings also re-wrap correctly if the window is resized.
+- Features: one folder with its five tabs in a row (replacing the staircase drawer). On desktop the folder pins and scrolling opens the next tab; clicking a tab glides to it. On phones you tap the tabs, and the folder also moves on by itself every 5 seconds while on screen (paused on hover). Every folder is pre-filled, so the section keeps one height whichever folder is open.
+- Spacing: less padding between sections (about 200px between sections at 1920, down from 340px), no empty tail after the last "How it works" step, the Control panel uses the same padding as other sections, and the oversized gap above the footer is gone.
+- Hero headline: "Every email answered. Every follow-up sent." (sized to stay on two lines on every desktop width).
+- Feature folder photos replaced with a new set: the same woman in five different scenes (reading a letter, lunch with a client, a city walk, an evening office, writing notes), with descriptive alt text.
+- "Who it's for" redesigned as three full-height portrait panels: the open one shows the portrait large with a letter addressed to that person laid beside it (airmail stripe, postmark, their problem in handwriting, what MailPilot does for them, signed "Best, MailPilot"); the others are tall slivers with vertical titles, and hovering or clicking opens a panel. On tablets and phones all three show in full, stacked.
+- "Who it's for" panels open smoothly: a panel opens only after the mouse moves over it and settles, never while another is still opening, so panels no longer bounce back and forth; new portraits of three different American women, with descriptive alt text.
+- "How it works": the sticky panel is now a setup window, with a title bar showing the step count, a stepper (Persona, Connect, Manage, Review) whose line fills as you scroll, the current step's card, and a status bar with the step's time and an "under 20 minutes" meter.
 - Cleanup: removed old design backups, scratch files, unused images, Tailwind (installed but unused), stale docs (ARCHITECTURE, ROADMAP, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY), unused data, hooks and CSS. Build tools moved to devDependencies.
 - Footer: envelope flap and seal no longer overlap the columns; a cleaner Office column; real platform icons (also in the hero).
 

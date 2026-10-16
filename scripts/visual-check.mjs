@@ -16,13 +16,19 @@ async function check(name, viewport, reducedMotion = "no-preference") {
   // Folders: open "Follow-ups"
   await page.locator("#features").scrollIntoViewIfNeeded();
   await page.getByRole("tab", { name: /Follow-ups/ }).click();
-  await page.waitForTimeout(500);
+  // on desktop the tab glides the page to that folder; wait for it to open
+  await page
+    .waitForFunction(() => /Follow-ups/.test(document.querySelector(".mf.is-front h3")?.textContent ?? ""), null, { timeout: 6000 })
+    .catch(() => {});
   const folder = await page.locator(".mf.is-front h3").textContent();
 
   // Control: approve the draft with one click
   await page.locator("#control").scrollIntoViewIfNeeded();
   await page.getByRole("button", { name: /Approve with one click/ }).click();
-  await page.waitForTimeout(1200);
+  // wait for the outcome rather than a fixed time (software WebGL in headless browsers can stall the page briefly)
+  await page
+    .waitForFunction(() => document.querySelector(".ltr__status.is-on, .outbox__item"), null, { timeout: 15000 })
+    .catch(() => {});
   const sealed = (await page.locator(".ltr__status.is-on").count()) + (await page.locator(".outbox__item").count());
 
   // FAQ

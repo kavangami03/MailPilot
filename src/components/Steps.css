@@ -12,28 +12,30 @@
 }
 .steps__screen {
   position: relative;
-  aspect-ratio: 4 / 3.3;
-  max-height: calc(100svh - 150px);
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  height: min(calc(100svh - 150px), 760px);
+  min-height: 560px;
   border-radius: var(--r-xl);
   overflow: hidden;
   isolation: isolate;
   background:
-    radial-gradient(60% 60% at 80% 10%, rgb(220 178 126 / 0.22), transparent 70%),
-    radial-gradient(70% 70% at 0% 100%, rgb(47 126 125 / 0.55), transparent 70%),
-    linear-gradient(rgb(217 194 163 / 0.06) 1px, transparent 1px) 0 0 / 44px 44px,
-    linear-gradient(90deg, rgb(217 194 163 / 0.06) 1px, transparent 1px) 0 0 / 44px 44px,
+    radial-gradient(55% 45% at 50% 58%, rgb(220 178 126 / 0.16), transparent 70%),
+    radial-gradient(70% 70% at 0% 100%, rgb(47 126 125 / 0.5), transparent 70%),
+    linear-gradient(rgb(217 194 163 / 0.05) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, rgb(217 194 163 / 0.05) 1px, transparent 1px) 0 0 / 44px 44px,
     var(--teal-900);
   box-shadow: 0 50px 100px -50px rgb(7 30 31 / 0.7);
 }
-.steps__screen-top {
-  position: absolute;
-  inset: 0 0 auto;
-  z-index: 2;
+
+/* window bar */
+.sv__bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 18px 22px;
+  gap: 16px;
+  padding: 16px 22px;
+  border-bottom: 1px solid rgb(217 194 163 / 0.1);
 }
 .steps__lights {
   display: flex;
@@ -48,28 +50,157 @@
 .steps__lights i:first-child {
   background: var(--gold);
 }
-.steps__badge {
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgb(220 178 126 / 0.16);
-  color: var(--gold);
-  font-size: 0.76rem;
+.sv__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: rgb(246 240 230 / 0.78);
+}
+.sv__count {
+  margin-left: auto;
+  font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.04em;
+  color: var(--gold);
 }
-.steps__watermark {
-  position: absolute;
-  right: -40px;
-  bottom: -40px;
-  z-index: -1;
-  color: rgb(217 194 163 / 0.08);
+.sv__count em {
+  font-style: normal;
+  color: rgb(246 240 230 / 0.45);
 }
-.steps__scenes {
+
+/* stepper: four stages joined by a line that fills to the current one */
+.sv__track {
+  padding: 22px clamp(18px, 2.4vw, 40px) 0;
+}
+.sv__steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.sv__steps::before,
+.sv__steps::after {
+  content: "";
   position: absolute;
-  inset: 64px 0 0;
+  left: 12.5%;
+  right: 12.5%;
+  top: 17px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgb(246 240 230 / 0.12);
+}
+.sv__steps::after {
+  background: linear-gradient(90deg, var(--bronze-500), var(--gold));
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+  transition: transform 0.7s var(--ease-out);
+}
+.sv__steps li {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+.sv__node {
   display: grid;
   place-items: center;
-  padding: 0 clamp(20px, 3vw, 56px) clamp(20px, 3vw, 48px);
+  width: 36px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--teal-900);
+  box-shadow: inset 0 0 0 1.5px rgb(246 240 230 / 0.22);
+  color: rgb(246 240 230 / 0.45);
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+.sv__steps li.is-done .sv__node {
+  background: var(--gold);
+  box-shadow: none;
+  color: var(--teal-950);
+}
+.sv__steps li.is-on .sv__node {
+  background: var(--teal-800);
+  box-shadow:
+    inset 0 0 0 2px var(--gold),
+    0 0 0 6px rgb(220 178 126 / 0.14);
+  color: var(--gold);
+  animation: sv-glow 2.4s ease-in-out infinite;
+}
+@keyframes sv-glow {
+  50% {
+    box-shadow:
+      inset 0 0 0 2px var(--gold),
+      0 0 0 10px rgb(220 178 126 / 0.06);
+  }
+}
+.sv__label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgb(246 240 230 / 0.42);
+  transition: color 0.4s ease;
+}
+.sv__steps li.is-done .sv__label {
+  color: rgb(246 240 230 / 0.7);
+}
+.sv__steps li.is-on .sv__label {
+  color: var(--paper);
+}
+
+/* the current stage's card */
+.steps__scenes {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px clamp(20px, 3vw, 56px);
+}
+.steps__scenes .scene {
+  width: min(100%, 540px);
+}
+.steps__scenes .sc__card {
+  font-size: clamp(0.86rem, 0.86vw, 1.02rem);
+}
+
+/* status bar */
+.sv__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 14px 22px;
+  border-top: 1px solid rgb(217 194 163 / 0.1);
+  font-size: 0.8rem;
+  color: rgb(246 240 230 / 0.6);
+}
+.sv__eta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--gold);
+}
+.sv__total {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.sv__meter {
+  display: flex;
+  gap: 4px;
+}
+.sv__meter i {
+  width: 18px;
+  height: 4px;
+  border-radius: 4px;
+  background: rgb(246 240 230 / 0.15);
+  transition: background-color 0.4s ease;
+}
+.sv__meter i.is-on {
+  background: var(--gold);
 }
 
 /* Scenes cross-fade; their rows cascade in */
@@ -373,6 +504,9 @@
   padding-block: 22px;
   opacity: 0.38;
   transition: opacity 0.5s ease;
+}
+.steps__item:last-child {
+  min-height: 28vh; /* enough to become the active step, without a tall empty tail */
 }
 .steps__item.is-active {
   opacity: 1;

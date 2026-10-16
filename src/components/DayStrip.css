@@ -1,528 +1,474 @@
 .day {
   position: relative;
-  z-index: 1;
-  overflow-x: clip;
+  z-index: 1; /* solid, so nothing shows through while the hero above is pinned */
   background-color: var(--paper);
   background-image:
     linear-gradient(rgb(16 60 61 / 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgb(16 60 61 / 0.045) 1px, transparent 1px);
   background-size: 64px 64px;
 }
-.day__pin {
-  min-height: 100svh;
-  display: grid;
-  align-content: center;
-  gap: clamp(22px, 3.4vh, 44px);
-  padding-block: clamp(96px, 11vh, 128px) clamp(28px, 4vh, 48px);
-}
 
-/* ---------- Headline + the counter beside the photo ---------- */
-.day__top {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: clamp(28px, 4vw, 80px);
-}
-.day__copy {
-  display: grid;
-  gap: 18px;
-  justify-items: start;
-}
-.day__copy .h2 {
-  max-width: 15ch;
-}
-.day__copy .lead {
-  max-width: 44ch;
-}
-
-.day__figure {
-  display: flex;
-  align-items: flex-end;
-  gap: clamp(18px, 2vw, 34px);
-  margin: 0;
-}
-.day__count {
-  display: grid;
-}
-.day__count > p {
-  grid-area: 1 / 1;
-  display: grid;
-  align-content: end;
-  justify-items: end;
-  text-align: right;
-}
-.day__count-before b {
-  display: flex;
-  align-items: baseline;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(4.4rem, 8.6vw, 9.5rem);
-  line-height: 0.8;
-  letter-spacing: -0.06em;
-  font-variant-numeric: tabular-nums;
-  color: var(--teal-950);
-}
-.day__count-before small {
-  margin-left: 0.08em;
-  font-size: 0.28em;
-  letter-spacing: -0.02em;
-  color: var(--alert);
-}
-.day__count-before > span {
-  max-width: 15ch;
-  margin-top: 12px;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--ink-3);
-}
-.day__count-after {
-  opacity: 0;
-  visibility: hidden;
-}
-.day__count-after .script {
-  font-size: clamp(1.8rem, 2.6vw, 2.8rem);
-  line-height: 1;
-  color: var(--bronze-600);
-}
-.day__count-after b {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(4rem, 7.6vw, 8.4rem);
-  line-height: 0.85;
-  letter-spacing: -0.06em;
-  color: var(--teal-700);
-}
-
-.day__photo {
+/* ---------- The same Tuesday, twice: one stage, split down the middle ---------- */
+.tues {
   position: relative;
-  flex: none;
-  width: clamp(180px, 15.5vw, 300px);
-  aspect-ratio: 4 / 5;
-  border-radius: 22px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  height: clamp(580px, 72vh, 700px);
+  border-radius: var(--r-xl);
   overflow: hidden;
-  background: var(--teal-900);
-  box-shadow:
-    0 0 0 6px #fffdf8,
-    0 34px 60px -30px rgb(7 30 31 / 0.6);
-  rotate: 2deg;
+  isolation: isolate;
+  background: var(--teal-950);
+  box-shadow: 0 50px 100px -50px rgb(7 30 31 / 0.7);
 }
-.day__photo .photo {
+
+.tday {
+  position: relative;
+  overflow: hidden;
+  color: var(--paper);
+}
+.tday__photo,
+.tday__photo .photo {
   position: absolute;
   inset: 0;
 }
-.day__photo-after {
-  clip-path: inset(100% 0% 0% 0%);
+.tday__photo .photo img {
+  object-position: 50% 28%;
 }
-.day__stamp {
+/* light to read by: dark at the top and bottom, the face left clear */
+.tday__photo::after {
+  content: "";
   position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
-  padding: 7px 10px;
-  border-radius: 12px;
-  background: rgb(7 30 31 / 0.8);
-  backdrop-filter: blur(6px);
-  font-family: var(--font-script);
-  font-weight: 700;
-  font-size: clamp(1rem, 1.05vw, 1.2rem);
-  line-height: 1.1;
-  text-align: center;
-  color: #f2b8a8;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgb(7 30 31 / 0.72) 0%, transparent 28%),
+    linear-gradient(0deg, rgb(7 30 31 / 0.95) 0%, rgb(7 30 31 / 0.7) 30%, transparent 62%);
+  pointer-events: none;
 }
-.day__stamp--after {
-  color: var(--gold);
-  opacity: 0;
-  visibility: hidden;
+.tday--before .tday__photo::before {
+  /* a cold, late-evening cast over the 6:40 pm desk */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(135deg, rgb(181 82 59 / 0.18), rgb(7 30 31 / 0.25));
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 
-/* ---------- The day ribbon: 9am → 6pm ---------- */
-.ribbon {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding-top: 112px; /* room for two lanes of tags */
-}
-.ribbon__track {
-  --scan: 0;
-  position: relative;
-  height: clamp(60px, 7vh, 76px);
-  border-radius: 18px;
-  background:
-    linear-gradient(90deg, rgb(16 60 61 / 0.1) 1px, transparent 1px) 0 0 / calc(100% / 9) 100%,
-    #fffdf8;
-  box-shadow:
-    inset 0 0 0 1px var(--line),
-    0 26px 44px -30px rgb(7 30 31 / 0.5);
-}
-.ribbon__ticks {
-  order: 2;
-  position: relative;
-  height: 22px;
-  margin-top: 10px;
-}
-.ribbon__ticks span {
+.tday__head {
   position: absolute;
-  top: 0;
-  left: calc(var(--s) / 540 * 100%);
-  translate: -50% 0;
+  top: clamp(20px, 2vw, 32px);
+  left: clamp(22px, 2.2vw, 36px);
+  z-index: 2;
+}
+.tday__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(246 240 230 / 0.78);
+}
+.tday__label::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+.tday__time {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 3.4vw, 3.8rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.tday--before {
+  --accent: #e07a5f;
+}
+.tday--after {
+  --accent: var(--gold);
+}
+
+/* the interruptions, piled over the evening photo */
+.pings {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.ping {
+  position: absolute;
+  width: min(250px, 46%); /* kept to the right of the face, and below it */
+}
+.ping__in {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgb(255 252 246 / 0.94);
+  color: var(--ink);
+  box-shadow: 0 16px 30px -14px rgb(0 0 0 / 0.65);
+  animation: ping-float 6s ease-in-out infinite;
+}
+.ping:nth-child(2) .ping__in {
+  animation-delay: -1.5s;
+}
+.ping:nth-child(3) .ping__in {
+  animation-delay: -3s;
+}
+.ping:nth-child(4) .ping__in {
+  animation-delay: -4.5s;
+}
+@keyframes ping-float {
+  50% {
+    translate: 0 -6px;
+  }
+}
+.ping__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #c4573d;
+  color: #fff;
+}
+.ping__text {
+  display: grid;
+  min-width: 0;
+  line-height: 1.25;
+}
+.ping__text strong {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 0.86rem;
-  color: var(--teal-800);
+  font-size: 0.8rem;
+}
+.ping__text em {
+  overflow: hidden;
+  font-style: normal;
+  font-size: 0.74rem;
   white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--ink-3);
 }
-.ribbon__ticks span:first-child {
-  translate: 0 0;
-}
-.ribbon__ticks span:last-child {
-  translate: -100% 0;
-}
-.ribbon__ticks small {
-  margin-left: 1px;
-  font-size: 0.72em;
+.ping time {
+  flex: none;
+  margin-left: auto;
+  align-self: flex-start;
+  font-size: 0.68rem;
+  font-weight: 700;
   color: var(--ink-4);
 }
 
-/* blocks of time */
-.rb {
+/* the calm side: what MailPilot already did */
+.chips {
   position: absolute;
-  top: 9px;
-  bottom: 9px;
-  left: calc(var(--s) / 540 * 100%);
-  width: calc(var(--d) / 540 * 100%);
+  top: clamp(26px, 2.6vw, 40px);
+  right: clamp(22px, 2.2vw, 36px);
+  z-index: 2;
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+.chipx {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 8px 10px;
+  border-radius: 999px;
+  background: rgb(255 252 246 / 0.94);
+  color: var(--teal-900);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.8rem;
+  box-shadow: 0 16px 30px -14px rgb(0 0 0 / 0.6);
+}
+.chipx svg {
+  box-sizing: content-box;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--teal-800);
+  color: var(--gold);
+}
+.tday__note {
+  /* on a paper slip, so it reads over any part of the photo */
+  margin-top: 8px;
+  padding: 4px 14px 7px;
+  border-radius: 10px;
+  background: rgb(255 252 246 / 0.95);
+  box-shadow: 0 16px 30px -14px rgb(0 0 0 / 0.6);
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 1.6vw, 1.85rem);
+  line-height: 1;
+  color: var(--teal-800);
+  rotate: -4deg;
+}
+
+/* bottom: the number and the day as a bar */
+.tday__foot {
+  position: absolute;
+  left: clamp(22px, 2.2vw, 36px);
+  right: clamp(22px, 2.2vw, 36px);
+  bottom: clamp(20px, 2vw, 30px);
+  z-index: 2;
+  display: grid;
+  gap: 16px;
+}
+.tday__stat {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+.tday__stat b {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  color: var(--accent);
+}
+.tday__stat b > span {
+  font-size: clamp(3.4rem, 5.4vw, 6rem);
+  font-variant-numeric: tabular-nums;
+}
+.tday__stat small {
+  font-size: clamp(1.2rem, 1.6vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.tday__stat > span {
+  max-width: 22ch;
+  text-wrap: balance;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  color: rgb(246 240 230 / 0.8);
+}
+
+.tbar {
+  display: grid;
+  gap: 6px;
+}
+.tbar__track {
+  position: relative;
+  height: 34px;
+  border-radius: 10px;
+  background:
+    linear-gradient(90deg, rgb(246 240 230 / 0.1) 1px, transparent 1px) 0 0 / calc(100% / 9) 100%,
+    rgb(7 30 31 / 0.55);
+  box-shadow: inset 0 0 0 1px rgb(246 240 230 / 0.14);
+}
+.tbar__b {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  border-radius: 8px;
   overflow: hidden;
+  border-radius: 6px;
+  transform-origin: left center;
 }
-.rb__label {
+.tbar--mail .tbar__b {
+  background: linear-gradient(180deg, #d06a50, #a8462f);
+  color: #fff;
+}
+.tbar--calm .tbar__b {
+  justify-content: flex-start;
+  padding: 0 8px;
+  background: linear-gradient(180deg, var(--teal-500), var(--teal-700));
+  color: var(--paper);
+}
+.tbar--calm .tbar__b.is-review {
+  padding: 0;
+  background: linear-gradient(180deg, #e8c393, var(--bronze-600));
+}
+.tbar__b em {
   overflow: hidden;
+  font-style: normal;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.72rem;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-.rb--mail {
-  z-index: 2;
-  background: linear-gradient(180deg, #c76750, #a8462f);
-  color: #fff;
-  box-shadow: 0 8px 16px -8px rgb(168 70 47 / 0.8);
+.tbar__hours {
+  position: relative;
+  height: 14px;
 }
-.rb--mail svg {
-  flex: none;
-}
-.rb--mail .rb__label {
-  display: none;
-}
-.rb--calm {
-  --g: 0;
-  justify-content: flex-start;
-  padding: 0 14px;
-  background: linear-gradient(180deg, var(--teal-600), var(--teal-800));
-  color: var(--paper);
-  box-shadow: 0 10px 20px -10px rgb(7 30 31 / 0.7);
-  clip-path: inset(0 calc((1 - var(--g)) * 100%) 0 0 round 8px);
-}
-.rb--review {
-  padding: 0;
-  background: linear-gradient(180deg, #e2c193, var(--bronze-600));
-}
-.rb--review .rb__label {
-  display: none;
-}
-
-/* handwritten tags hanging over the ribbon */
-.tag {
+.tbar__hours span {
   position: absolute;
-  bottom: calc(100% + 16px + var(--lane) * 48px);
-  left: calc(var(--s) / 540 * 100%);
-  z-index: 3;
-  display: grid;
-  gap: 2px;
-  padding-left: 10px;
+  top: 0;
+  translate: -50% 0;
+  font-size: 0.66rem;
+  font-weight: 600;
   white-space: nowrap;
+  color: rgb(246 240 230 / 0.6);
 }
-.tag::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 3px;
-  bottom: calc(-16px - var(--lane) * 48px);
-  width: 1.5px;
-  border-radius: 2px;
-  background: currentColor;
-  opacity: 0.4;
+.tbar__hours span:first-child {
+  translate: 0 0;
 }
-.tag time {
-  font-size: 0.64rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--ink-4);
-}
-.tag > span {
-  font-family: var(--font-script);
-  font-weight: 700;
-  font-size: clamp(1.1rem, 1.25vw, 1.45rem);
-  line-height: 1;
-}
-.tag__short {
-  display: none;
-}
-.tag--mail {
-  color: var(--alert);
-}
-.tag--end {
-  left: auto;
-  right: calc(100% - (var(--s) + var(--d)) / 540 * 100%);
-  padding: 0 10px 0 0;
-  text-align: right;
-}
-.tag--end::before {
-  left: auto;
-  right: 0;
-}
-.tag--calm {
-  color: var(--teal-700);
-  opacity: 0;
-  visibility: hidden;
+.tbar__hours span:last-child {
+  translate: -100% 0;
 }
 
-/* MailPilot's seal sweeping across the day */
-.ribbon__scan {
+/* the seam between the two days, closed with MailPilot's seal */
+.tues__seam {
   position: absolute;
-  top: -14px;
-  bottom: -14px;
-  left: calc(var(--scan) * 100%);
-  z-index: 4;
-  width: 2px;
-  margin-left: -1px;
-  background: linear-gradient(transparent, var(--bronze-500) 18%, var(--bronze-500) 82%, transparent);
-  opacity: 0;
-  visibility: hidden;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  z-index: 3;
+  width: 0;
   pointer-events: none;
 }
-.ribbon__scan::before {
-  content: "";
+.tues__seam i {
   position: absolute;
-  right: 1px;
-  top: 14px;
-  bottom: 14px;
-  width: 140px;
-  background: linear-gradient(90deg, transparent, rgb(220 178 126 / 0.32));
+  top: 0;
+  bottom: 0;
+  left: -1px;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, var(--gold) 15%, var(--gold) 85%, transparent);
+  transform-origin: top;
 }
-.ribbon__scan i {
+.tues__seal {
   position: absolute;
-  left: 50%;
-  top: -34px;
+  top: 50%;
+  left: 0;
   display: grid;
   place-items: center;
-  width: 46px;
+  width: clamp(70px, 5.6vw, 92px);
   aspect-ratio: 1;
-  margin-left: -23px;
+  translate: -50% -50%;
   border-radius: 47% 53% 50% 50% / 53% 47% 53% 47%;
   background: radial-gradient(circle at 35% 30%, #e2c193, var(--bronze-600) 55%, var(--bronze-800));
   box-shadow:
-    inset 0 -3px 6px rgb(0 0 0 / 0.25),
-    inset 0 2px 4px rgb(255 255 255 / 0.3),
-    0 10px 18px -6px rgb(0 0 0 / 0.45);
+    inset 0 -4px 8px rgb(0 0 0 / 0.3),
+    inset 0 3px 6px rgb(255 255 255 / 0.3),
+    0 0 0 6px rgb(7 30 31 / 0.35),
+    0 18px 30px -10px rgb(0 0 0 / 0.7);
 }
-.ribbon__scan img {
-  width: 46%;
+.tues__seal img {
+  width: 44%;
   height: auto;
 }
 
-.day__caps {
-  display: grid;
-}
-.day__cap {
-  grid-area: 1 / 1;
-  font-size: 0.98rem;
-  color: var(--ink-3);
-}
-.day__cap b {
-  color: var(--teal-950);
-}
-.day__cap--after {
-  opacity: 0;
-  visibility: hidden;
-}
-
-/* ---------- Reduced motion: the finished, calm day ---------- */
-.day.is-after .rb--mail,
-.day.is-after .tag--mail,
-.day.is-after .day__count-before,
-.day.is-after .day__stamp--before,
-.day.is-after .day__cap--before {
-  visibility: hidden;
-}
-.day.is-after .rb--calm {
-  --g: 1;
-}
-.day.is-after .tag--calm,
-.day.is-after .day__count-after,
-.day.is-after .day__stamp--after,
-.day.is-after .day__cap--after {
-  opacity: 1;
-  visibility: visible;
-}
-.day.is-after .day__photo-after {
-  clip-path: none;
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 1399px) {
-  .tag__full {
+/* ---------- Narrow screens: the two days stack, the seam runs across ---------- */
+@media (max-width: 1240px) {
+  .ping {
+    width: min(240px, 60%);
+  }
+  .ping:nth-child(n + 4) {
     display: none;
   }
-  .tag__short {
-    display: block;
-  }
 }
-@media (max-width: 1060px) {
-  .day__top {
-    grid-template-columns: minmax(0, 1fr);
-    align-items: start;
-  }
-  .day__copy .h2 {
-    max-width: none;
-  }
-  .day__figure {
-    justify-content: space-between;
-  }
-  .day__count > p {
-    justify-items: start;
-    text-align: left;
-  }
-}
-
-/* phones: the day runs top to bottom, like a planner page; the photo is the payoff underneath */
+/* phones and small tablets: each day is photo first, then its notes, number and bar,
+   so nothing sits on top of the times or the face */
 @media (max-width: 860px) {
-  .day__pin {
-    min-height: 0;
-    padding-block: 72px 56px;
-    gap: 28px;
-  }
-  .day__top,
-  .day__figure {
-    display: contents;
-  }
-  .day__count {
-    order: 1;
-  }
-  .ribbon {
-    order: 2;
-  }
-  .day__photo {
-    order: 3;
-  }
-  .day__caps {
-    order: 4;
-  }
-  .day__count-before b {
-    font-size: clamp(3.6rem, 18vw, 5.2rem);
-  }
-  .day__count-after b {
-    font-size: clamp(3.2rem, 16vw, 4.6rem);
-  }
-  .day__count-before > span {
-    font-size: 0.9rem;
-  }
-  .day__photo {
-    width: 100%;
-    aspect-ratio: 5 / 4;
-    border-radius: 20px;
-    rotate: 0deg;
-  }
-  .day__stamp {
-    left: 12px;
-    right: auto;
-    bottom: 12px;
-    padding: 6px 12px;
-    font-size: 1.05rem;
-  }
-
-  .ribbon {
-    display: grid;
-    grid-template-columns: 44px minmax(0, 1fr);
-    padding-top: 0;
-  }
-  .ribbon__ticks {
-    order: 0;
+  .tues {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
     height: auto;
-    margin: 0;
   }
-  .ribbon__ticks span {
-    top: calc(var(--s) / 540 * 100%);
-    left: 0;
-    translate: 0 -50%;
+  .tday {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 22px;
   }
-  .ribbon__ticks span:first-child {
-    translate: 0 0;
+  .tday--after {
+    grid-row: 3;
   }
-  .ribbon__ticks span:last-child {
-    translate: 0 -100%;
+  .tday__photo {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 4 / 3.3;
   }
-  .ribbon__track {
-    height: clamp(520px, 150vw, 640px);
+  .tday__photo::after {
     background:
-      linear-gradient(180deg, rgb(16 60 61 / 0.1) 1px, transparent 1px) 0 0 / 100% calc(100% / 9),
-      #fffdf8;
+      linear-gradient(180deg, rgb(7 30 31 / 0.72) 0%, transparent 34%),
+      linear-gradient(0deg, var(--teal-950) 0%, transparent 34%);
   }
-  .rb {
-    top: calc(var(--s) / 540 * 100%);
-    bottom: auto;
-    left: 8px;
-    right: 8px;
-    width: auto;
-    height: calc(var(--d) / 540 * 100%);
-    min-height: 22px;
-    justify-content: flex-start;
-    padding: 0 10px;
+  .pings,
+  .chips {
+    position: static;
+    display: grid;
+    gap: 8px;
+    padding: 14px 16px 0;
   }
-  .rb__label {
-    font-size: 0.78rem;
+  .chips {
+    justify-items: start;
   }
-  .rb--mail .rb__label,
-  .rb--review .rb__label {
-    display: block;
+  .ping {
+    position: relative;
+    top: auto !important;
+    right: auto !important;
+    width: 100%;
   }
-  .rb--review {
-    padding: 0 10px;
-    color: var(--teal-950);
-  }
-  .rb--calm {
-    clip-path: inset(0 0 calc((1 - var(--g)) * 100%) 0 round 8px);
-  }
-  .tag {
+  .ping:nth-child(n + 3) {
     display: none;
   }
-  .ribbon__scan {
-    top: calc(var(--scan) * 100%);
+  .tday__foot {
+    position: static;
+    padding: 18px 16px 0;
+  }
+  /* the seam becomes the line between the two days */
+  .tues__seam {
+    position: relative;
+    grid-row: 2;
+    top: auto;
     bottom: auto;
-    left: -6px;
-    right: -6px;
+    left: auto;
+    width: auto;
+    height: 0;
+  }
+  .tues__seam i {
+    top: -1px;
+    bottom: auto;
+    left: 0;
+    right: 0;
     width: auto;
     height: 2px;
-    margin: -1px 0 0;
-    background: linear-gradient(90deg, transparent, var(--bronze-500) 12%, var(--bronze-500) 88%, transparent);
+    background: linear-gradient(90deg, transparent, var(--gold) 15%, var(--gold) 85%, transparent);
+    transform-origin: left;
   }
-  .ribbon__scan::before {
-    top: auto;
-    right: 14px;
-    bottom: 1px;
-    left: 14px;
-    width: auto;
-    height: 90px;
-    background: linear-gradient(180deg, transparent, rgb(220 178 126 / 0.3));
+  .tues__seal {
+    top: 0;
+    left: 50%;
+    z-index: 4;
   }
-  .ribbon__scan i {
-    left: auto;
-    right: -12px;
-    top: 50%;
-    width: 36px;
-    margin: -18px 0 0;
+  .tday--after .tday__head {
+    top: 52px; /* clear of the seal on the seam above */
+  }
+}
+@media (max-width: 640px) {
+  .ping {
+    width: min(230px, 74%);
+  }
+  .tday__stat > span {
+    font-size: 0.88rem;
+  }
+  .tbar__hours span {
+    display: none;
+  }
+  .tbar__hours span:nth-child(3n + 1) {
+    display: block; /* 9am, 12pm, 3 and 6pm: room to breathe on a phone */
+  }
+  .tbar__b em {
+    display: none;
+  }
+  .tday__label {
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
   }
 }

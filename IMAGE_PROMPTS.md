@@ -44,7 +44,7 @@ Top-down overhead photograph of a dark deep-teal leather desk surface at dusk, a
 
 ## 2. The problem: "The 3.1-hour day" (2 images, before / after with the same person)
 
-The section shows Alex's workday filling with email, then MailPilot giving the hours back. A taped polaroid next to the dial develops from the before photo to the after photo as the day is handed back.
+The section shows the same Tuesday twice, side by side: Alex's day without MailPilot (still at the desk at 6:40 pm), then with it (leaving at 5:45 pm).
 
 ### `day-before.jpg` ★ · 4:5 portrait · 1200 × 1500
 ```
@@ -60,55 +60,63 @@ The same person, Alex, at 5:45pm leaving a bright modern office, laptop bag over
 
 ## 3. Features: "The five folders" (5 images, one per folder)
 
-Each feature is a paper folder you can pull forward. The photo sits behind a live product card, so keep the **left third of the image calm** (the card covers it).
+Each folder shows its photo as a taped polaroid at the top right. A product card overlaps the photo's lower-left corner and a sticky note its lower-right, so keep both corners plain and the face in the upper half.
 
-### `persona-writer.jpg` ★ · 3:2 · 1800 × 1200 · Folder 01, "Learns your voice"
-```
-Alex in a sunlit café corner writing on a laptop, slight smile of recognition as if reading something that sounds exactly like them, a notebook with a fountain pen beside the laptop, warm window light from the right, the left third of the frame soft and uncluttered. [style lock]
-```
+The five scenes are deliberately different (setting, activity, outfit, time of day, camera angle and expression) so the folders don't look alike, and none of them uses a laptop. Her face is described word for word the same in every prompt. Paste each prompt as it is, with this negative prompt for all five:
 
-### `client-coffee.jpg` · 3:2 · 1800 × 1200 · Folder 02, "Relationship intelligence"
-```
-Two professionals laughing warmly over coffee at a small walnut café table, one leaning in, a genuine client relationship moment, cups and a closed notebook on the table, warm afternoon light, the left third of the frame soft and uncluttered. [style lock]
-```
+`airbrushed skin, plastic or waxy skin, doll-like face, uncanny eyes, distorted face, heavy makeup, cheesy grin, looking at the camera, posing, laptop, extra fingers, deformed hands, text, letters, logo, watermark, readable screen, neon, oversaturated colours, orange skin, harsh flash, cluttered background, low resolution, child, teenager`
 
-### `sales-call.jpg` · 3:2 · 1800 × 1200 · Folder 03, "Automated follow-ups"
+**Keeping her the same person:** generate `persona-writer.jpg` first. Make several versions and keep the one with the most natural face, then use it as the **character / face reference** for the other four.
+
+### `persona-writer.jpg` · 3:2 · 1800 × 1200 · Folder 01, "Your voice" · reading, home, morning
 ```
-An energetic sales professional standing by a large window in a modern office, on a phone call with a confident smile, laptop open on a high table beside them, city softly blurred outside, golden light, the left third of the frame soft and uncluttered. [style lock]
+Photo of a white American woman in her early 30s with a natural, approachable face, light freckles across her nose and cheeks, hazel-green eyes, soft natural brows, shoulder-length wavy chestnut-brown hair, small gold hoop earrings and minimal makeup, wearing a cream cable-knit sweater, curled up in a worn leather armchair by a tall window on a quiet morning, reading a printed letter in her hands with a small, knowing smile, as if the words sound exactly like her. A cup of coffee on the side table, a deep-teal wall and a brass reading lamp behind her, soft morning light. Medium close-up from a slight angle. Composition: 3:2 landscape; her face in the upper half, slightly right of centre; keep the bottom-left and bottom-right corners plain. Candid editorial photograph, not posed: she is not looking at the camera. Full-frame camera, 50mm lens at f/2, natural light, true-to-life colours with gentle warmth, real skin texture with visible pores, subtle film grain like Kodak Portra 400. Muted natural palette with touches of deep teal and warm brass in the surroundings. No text, no logos; any screen shows only a soft blurred glow.
 ```
 
-### `exec-review.jpg` · 3:2 · 1800 × 1200 · Folder 04, "Inbox Performance Overview"
+### `client-coffee.jpg` · 3:2 · 1800 × 1200 · Folder 02, "Relationships" · laughing with a client, café, lunchtime
 ```
-A composed founder in their 40s in a glass-walled office reviewing a laptop dashboard (screen a soft blurred glow, no readable UI), chin resting on hand, thoughtful and in control, teal blazer, warm evening light, the left third of the frame soft and uncluttered. [style lock]
+Photo of a white American woman in her early 30s with a natural, approachable face, light freckles across her nose and cheeks, hazel-green eyes, soft natural brows, shoulder-length wavy chestnut-brown hair, small gold hoop earrings and minimal makeup, wearing a chocolate-brown blazer over a plain white T-shirt, laughing genuinely with a client across a small marble café table at lunchtime, leaning forward, one hand around a cappuccino. The client is seen from behind, over the shoulder and softly out of focus. A busy but blurred café with green plants and bright daylight. Over-the-shoulder medium shot with her face clearly visible. Composition: 3:2 landscape; her face in the upper half, slightly right of centre; keep the bottom-left and bottom-right corners plain. Candid editorial photograph, not posed: she is not looking at the camera. Full-frame camera, 50mm lens at f/2, natural light, true-to-life colours with gentle warmth, real skin texture with visible pores, subtle film grain like Kodak Portra 400. Muted natural palette with touches of deep teal and warm brass in the surroundings. No text, no logos; any screen shows only a soft blurred glow.
 ```
 
-### `notes-instructions.jpg` · 3:2 · 1800 × 1200 · Folder 05, "Per-email instructions"
+### `sales-call.jpg` · 3:2 · 1800 × 1200 · Folder 03, "Follow-ups" · on the move, city street, golden hour
 ```
-Close-up of hands writing a short handwritten note on a cream index card with a brass fountain pen, next to a laptop and a cup of tea on a walnut desk, the note's handwriting blurred and unreadable, warm side light, shallow depth of field, the left third of the frame soft and uncluttered. [style lock]
+Photo of a white American woman in her early 30s with a natural, approachable face, light freckles across her nose and cheeks, hazel-green eyes, soft natural brows, shoulder-length wavy chestnut-brown hair, small gold hoop earrings and minimal makeup, wearing a long camel trench coat over a black turtleneck, a brown leather tote on her shoulder, walking along a city street at golden hour and glancing at her phone with a calm, confident half-smile, mid-stride. Brick and glass buildings and passers-by softly blurred behind her, low sun from the side. Three-quarter-length shot from slightly ahead of her. Composition: 3:2 landscape; her face in the upper half, slightly right of centre; keep the bottom-left and bottom-right corners plain. Candid editorial photograph, not posed: she is not looking at the camera. Full-frame camera, 50mm lens at f/2, natural light, true-to-life colours with gentle warmth, real skin texture with visible pores, subtle film grain like Kodak Portra 400. Muted natural palette with touches of deep teal and warm brass in the surroundings. No text, no logos; any screen shows only a soft blurred glow.
+```
+
+### `exec-review.jpg` · 3:2 · 1800 × 1200 · Folder 04, "Overview" · reviewing a tablet, high-rise office, blue hour
+```
+Photo of a white American woman in her early 30s with a natural, approachable face, light freckles across her nose and cheeks, hazel-green eyes, soft natural brows, shoulder-length wavy chestnut-brown hair, small gold hoop earrings and minimal makeup, hair tucked behind one ear, wearing a tailored navy suit with an ivory silk blouse, standing by a floor-to-ceiling window in a high-rise office at blue hour, reviewing a tablet with a calm, composed, thoughtful expression and no smile, the city lights glowing below. A warm brass desk lamp behind her and cool evening light from the window. Medium shot in near profile. Composition: 3:2 landscape; her face in the upper half, slightly right of centre; keep the bottom-left and bottom-right corners plain. Candid editorial photograph, not posed: she is not looking at the camera. Full-frame camera, 50mm lens at f/2, natural light, true-to-life colours with gentle warmth, real skin texture with visible pores, subtle film grain like Kodak Portra 400. Muted natural palette with touches of deep teal and warm brass in the surroundings. No text, no logos; any screen shows only a soft blurred glow.
+```
+
+### `notes-instructions.jpg` · 3:2 · 1800 × 1200 · Folder 05, "Instructions" · writing sticky notes, studio desk, afternoon
+```
+Photo of a white American woman in her early 30s with a natural, approachable face, light freckles across her nose and cheeks, hazel-green eyes, soft natural brows, shoulder-length wavy chestnut-brown hair, small gold hoop earrings and minimal makeup, hair loosely tied back, wearing an oversized white linen shirt with rolled sleeves, sitting at a wooden desk in a sunlit studio in the afternoon and writing a short instruction on a yellow sticky note, focused and concentrating, pen pressed to the paper, with a few more notes stuck along the edge of a closed notebook. Paper documents and a ceramic mug nearby, plants in the background. Close-medium shot from slightly above. The handwriting is blurred and unreadable. Composition: 3:2 landscape; her face in the upper half, slightly right of centre; keep the bottom-left and bottom-right corners plain. Candid editorial photograph, not posed: she is not looking at the camera. Full-frame camera, 50mm lens at f/2, natural light, true-to-life colours with gentle warmth, real skin texture with visible pores, subtle film grain like Kodak Portra 400. Muted natural palette with touches of deep teal and warm brass in the surroundings. No text, no logos; any screen shows only a soft blurred glow.
 ```
 
 ---
 
 ## 4. Who it's for: "The people" (3 tall portraits)
 
-Shown as large rows. The portrait follows the cursor on hover, and fills the card on mobile.
+Three full-height portrait panels sit side by side; the open one shows the portrait large with a letter beside it, and the closed ones show a narrow vertical slice through the middle of the photo. So keep each woman centred left to right, with her face in the upper third, and keep the bottom third simple because the title is laid over it.
 
-### `crew-sales.jpg` · 3:4 · 1200 × 1600
-```
-Environmental portrait of a sales professional in their late 20s in a modern office, headset around the neck, confident warm smile, teal shirt, looking at the camera, soft window light, blurred office behind. [style lock]
-```
+Three different American women, each with her own look, outfit and setting. Generate them in the same session with the same settings so they look like one photo series. Negative prompt for all three:
 
-### `crew-exec.jpg` · 3:4 · 1200 × 1600
-```
-Environmental portrait of a company founder in their 40s standing in a calm executive office with dark teal panelled walls and a brass lamp, relaxed half-smile, tailored teal blazer over an ivory shirt, looking at the camera. [style lock]
-```
+`airbrushed skin, plastic or waxy skin, doll-like face, uncanny eyes, distorted face, heavy makeup, cheesy grin, stiff pose, laptop, extra fingers, deformed hands, text, letters, logo, watermark, readable screen, neon, oversaturated colours, orange skin, harsh flash, cluttered background, low resolution, child, teenager`
 
-### `crew-consult.jpg` · 3:4 · 1200 × 1600
+### `crew-sales.jpg` · 3:4 · 1200 × 1600 · Sales professionals
 ```
-Environmental portrait of an independent consultant in their late 30s in a sunlit home studio with ivory linen curtains, holding a ceramic coffee cup, camel-bronze sweater, thoughtful friendly expression, looking at the camera. [style lock]
+Photo of an energetic Black American woman in her late 20s with natural curly hair in a voluminous puff, warm brown eyes and small gold hoop earrings, wearing a rust-orange ribbed knit top under a light denim jacket, one hand in her jacket pocket. She stands on a bright, modern sales floor with colleagues and desks softly blurred behind her, laughing mid-conversation with a warm, confident smile, looking just past the camera. Bright midday window light. Composition: 3:4 vertical portrait, waist-up, her face centred left to right and in the upper third; keep the bottom third simple (a title is laid over it) and the background softly blurred. Editorial portrait photograph, full-frame camera, 85mm lens at f/2, natural light, true-to-life colours, real skin texture with visible pores, subtle film grain like Kodak Portra 400. Muted natural palette with touches of deep teal and warm brass in the surroundings. No text, no logos; any screen shows only a soft blurred glow.
 ```
 
-*(Vary age, gender and ethnicity across the three.)*
+### `crew-exec.jpg` · 3:4 · 1200 × 1600 · Executives & founders
+```
+Photo of a composed white American woman in her early 40s with a sleek shoulder-length blonde bob, light blue eyes and a thin gold necklace, wearing a tailored ivory blazer over a black silk top. She stands in a glass-walled corner office at dusk, arms loosely crossed, with a calm, self-assured half-smile, looking at the camera. The city glows softly through the window behind her and a brass desk lamp adds warm light. Composition: 3:4 vertical portrait, waist-up, her face centred left to right and in the upper third; keep the bottom third simple (a title is laid over it) and the background softly blurred. Editorial portrait photograph, full-frame camera, 85mm lens at f/2, natural light, true-to-life colours, real skin texture with visible pores, subtle film grain like Kodak Portra 400. Muted natural palette with touches of deep teal and warm brass in the surroundings. No text, no logos; any screen shows only a soft blurred glow.
+```
+
+### `crew-consult.jpg` · 3:4 · 1200 × 1600 · Consultants & freelancers
+```
+Photo of a friendly Latina American woman in her mid 30s with long dark-brown wavy hair, warm brown eyes and small gold stud earrings, wearing an oversized olive-green knit cardigan over a plain white T-shirt. She sits on the edge of a wooden desk in a cosy, sunlit home studio with bookshelves and plants, holding a ceramic coffee mug in both hands, relaxed and smiling naturally, looking slightly off-camera. Soft afternoon daylight. Composition: 3:4 vertical portrait, waist-up, her face centred left to right and in the upper third; keep the bottom third simple (a title is laid over it) and the background softly blurred. Editorial portrait photograph, full-frame camera, 85mm lens at f/2, natural light, true-to-life colours, real skin texture with visible pores, subtle film grain like Kodak Portra 400. Muted natural palette with touches of deep teal and warm brass in the surroundings. No text, no logos; any screen shows only a soft blurred glow.
+```
 
 ---
 
@@ -166,5 +174,7 @@ A single cream letter half-tucked into an ivory envelope with teal-and-bronze ai
 Every slot above is filled. The originals were optimised (JPG at about 80% quality, 100 to 200 KB each) and saved to `src/assets/photos/` under the slot names. One extra image, *Luxurious Teal Desk Letter Scene*, is used as `letter-sealed.jpg` on the final CTA stamp and, cropped to 1200 × 630, as `public/images/og-image.jpg`.
 
 To replace an image later, drop a new file with the same name into `src/assets/photos/`. No code change is needed.
+
+**Update, 16 Oct 2026:** the five folder prompts (section 3) were rewritten to feature a woman, then revised so each folder has its own scene and her face looks natural. The new images were supplied and are in place. The section 4 portraits (three different women) were also replaced and are in place.
 
 **Tips:** export JPG at about 80% quality and keep each under ~400 KB (squoosh.app works well). Wrong aspect ratios are fine, since every slot crops to fit, but do keep the subject where the prompt says.

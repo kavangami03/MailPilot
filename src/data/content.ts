@@ -85,7 +85,7 @@ export const features: { id: string; n: string; title: string; text: string; pho
     title: "Replies that sound like you wrote them",
     text: "Set up your Persona once: formality, greetings, sign-offs, sentence rhythm and the phrases you always reach for. Every draft is written against it, so reviewing is a glance, not a rewrite.",
     photo: "persona-writer",
-    alt: "A professional writing at a desk in golden-hour light",
+    alt: "A woman reading a printed letter in an armchair by the window",
     visual: "voice",
   },
   {
@@ -94,7 +94,7 @@ export const features: { id: string; n: string; title: string; text: string; pho
     title: "Know who's going cold before they do",
     text: "A profile for every contact, built straight from your inbox: history, frequency, last interaction and a relationship score. No CRM to update, nothing to type in.",
     photo: "client-coffee",
-    alt: "Two people talking over coffee in a warm café",
+    alt: "A woman laughing with a client over coffee in a café",
     visual: "relationships",
   },
   {
@@ -103,7 +103,7 @@ export const features: { id: string; n: string; title: string; text: string; pho
     title: "Follow-ups that never slip through",
     text: "No reply inside your window? MailPilot drafts a follow-up from the original thread and your Persona. Approve each one, or let them go out on their own, with per-contact limits.",
     photo: "sales-call",
-    alt: "A professional on a phone call in a sunlit office",
+    alt: "A woman checking her phone as she walks down a sunlit city street",
     visual: "followups",
   },
   {
@@ -112,7 +112,7 @@ export const features: { id: string; n: string; title: string; text: string; pho
     title: "Your whole inbox, at a glance",
     text: "The Inbox Performance Overview shows response times, reply rate, open threads, who's waiting on you and how your relationships are trending.",
     photo: "exec-review",
-    alt: "An executive reviewing work at a desk at sunset",
+    alt: "A woman reviewing a tablet by an office window at dusk",
     visual: "overview",
   },
   {
@@ -121,7 +121,7 @@ export const features: { id: string; n: string; title: string; text: string; pho
     title: "Rules for the threads that matter",
     text: "Leave an instruction on any email or contact, like “keep it under 80 words” or “always copy Jon”, and MailPilot follows it for that conversation.",
     photo: "notes-instructions",
-    alt: "A laptop and handwritten notes on a sunlit café table",
+    alt: "A woman writing an instruction on a sticky note at her desk",
     visual: "instructions",
   },
 ];
@@ -161,7 +161,7 @@ export const crew = [
     pain: "Your pipeline lives in the inbox. One slow reply and a warm prospect goes cold.",
     gets: ["Follow-ups that fire on schedule, every time", "Outreach and reply drafts that sound like you", "More hours for calls and demos"],
     photo: "crew-sales",
-    alt: "A sales professional with headphones in a modern office",
+    alt: "A smiling sales professional in a denim jacket on a busy sales floor",
     initials: "SDR",
   },
   {
@@ -171,7 +171,7 @@ export const crew = [
     pain: "Your time is the most expensive in the company, and the inbox quietly eats about three hours of it a day.",
     gets: ["Replies drafted before you open the thread", "Follow-ups managed without a reminder", "Only what truly needs you rises to the top"],
     photo: "crew-exec",
-    alt: "A confident executive in a warm office",
+    alt: "An executive in an ivory blazer in a corner office at dusk",
     initials: "CEO",
   },
   {
@@ -181,7 +181,7 @@ export const crew = [
     pain: "Client relationships are the business. Neglect a high-value client by accident and the next project goes elsewhere.",
     gets: ["Every client relationship tracked and scored", "Polished, professional client drafts", "Proposals and follow-ups that never slip"],
     photo: "crew-consult",
-    alt: "A consultant at a warm, bright workspace",
+    alt: "A consultant holding a coffee mug in a sunlit home studio",
     initials: "PRO",
   },
 ];

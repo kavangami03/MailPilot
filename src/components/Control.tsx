@@ -1,8 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { AtSign, Check, Inbox, Lock, PauseCircle, RefreshCw, Send } from "lucide-react";
 import { gsap, prefersReducedMotion } from "../lib/motion";
 import { Avatar, Photo, Scribble } from "./ui";
 import "./Control.css";
+
+// the 3D stamp (and three.js) only downloads when this section comes near
+const Stamp3D = lazy(() => import("./Stamp3D"));
 
 type Mode = "draft" | "semi";
 type By = "you" | "auto";
@@ -89,7 +92,17 @@ export function Control() {
   const target = useRef<HTMLSpanElement>(null);
   const letter = useRef<HTMLDivElement>(null);
   const drag = useRef({ x: 0, y: 0, ox: 0, oy: 0, on: false });
+  const [near, setNear] = useState(false);
   const draft = queue[idx];
+
+  useEffect(() => {
+    if (prefersReducedMotion() || !tool.current) return; // the drawn stamp stays for reduced motion
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setNear(true), io.disconnect()), { rootMargin: "800px 0px" });
+    io.observe(tool.current);
+    return () => io.disconnect();
+  }, []);
+  // swap the drawing for the 3D stamp once it has rendered (set directly, so React never resets the drag classes)
+  const show3d = useCallback(() => tool.current?.classList.add("is-3d"), []);
   const waiting = [1, 2, 3].map((k) => queue[(idx + k) % queue.length]);
 
   // Letter goes to the outbox, the next one comes off the in-tray
@@ -154,6 +167,7 @@ export function Control() {
       const dy = b.top + b.height / 2 - (base.top + base.height / 2);
       const x0 = Number(gsap.getProperty(t, "x"));
       const y0 = Number(gsap.getProperty(t, "y"));
+      t.classList.add("is-pressing"); // the 3D stamp stands upright for the press
       gsap
         .timeline()
         .to(t, {
@@ -170,6 +184,7 @@ export function Control() {
         })
         .to(t, { y: y0 + dy - 40, scaleY: 1, duration: 0.3, ease: "power2.out" }, "+=0.12")
         .to(t, { x: 0, y: 0, duration: 0.7, ease: "power3.inOut" })
+        .add(() => t.classList.remove("is-pressing"))
         .add(() => post(by), "+=0.15");
     },
     [post],
@@ -402,6 +417,11 @@ export function Control() {
                     <image href="/mailpilot-mark-light.png" x="51" y="152" width="18" height="14.4" opacity="0.75" />
                   </svg>
                   <span className="stamp__base" aria-hidden="true" />
+                  {near && (
+                    <Suspense fallback={null}>
+                      <Stamp3D onReady={show3d} />
+                    </Suspense>
+                  )}
                 </button>
                 <p className="mat__hint" aria-hidden="true">
                   pick me up

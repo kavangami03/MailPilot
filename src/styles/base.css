@@ -132,7 +132,7 @@ ol {
 
 .section {
   position: relative;
-  padding-block: clamp(88px, 10vw, 170px);
+  padding-block: clamp(64px, 5.2vw, 100px);
 }
 
 /* Inset rounded panel — the family's "card on paper" section frame */

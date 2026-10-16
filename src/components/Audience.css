@@ -1,198 +1,480 @@
-.aud__list {
-  position: relative;
-  border-top: 1px solid var(--line-strong);
-}
-.aud__row {
-  border-bottom: 1px solid var(--line-strong);
-}
-.aud__trigger {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 70px minmax(0, 1fr) auto 44px;
-  align-items: center;
-  gap: 24px;
-  padding: clamp(22px, 2.8vw, 40px) 0;
-  text-align: left;
-}
-.aud__num {
-  font-family: var(--font-display);
-  font-weight: 600;
-  color: var(--bronze-600);
-}
-.aud__title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(2rem, 4.6vw, 5.2rem);
-  line-height: 1;
-  letter-spacing: -0.045em;
-  color: var(--teal-950);
-  transition:
-    color 0.35s ease,
-    transform 0.6s var(--ease-out);
-}
-.aud__tag {
-  max-width: 24ch;
-  font-size: 0.88rem;
-  color: var(--ink-3);
-  text-align: right;
-}
-.aud__arrow {
-  color: var(--teal-800);
-  transition:
-    transform 0.45s var(--ease-out),
-    color 0.3s ease;
-}
-.aud__row.is-open .aud__title {
-  color: var(--bronze-600);
-  transform: translateX(16px);
-}
-.aud__row.is-open .aud__arrow {
-  transform: rotate(45deg);
-  color: var(--bronze-600);
-}
-
-.aud__detail {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.6s var(--ease-out);
-}
-.aud__row.is-open .aud__detail {
-  grid-template-rows: 1fr;
-}
-.aud__detail > div {
-  display: grid;
-  grid-template-columns: 70px minmax(0, 1.2fr) minmax(0, 1fr);
-  gap: 24px;
-  overflow: hidden;
-}
-.aud__detail > div > * {
-  margin-bottom: 36px;
-}
-.aud__mobile-photo {
-  display: none;
-}
-.aud__pain {
-  grid-column: 2;
-  max-width: 30ch;
-  font-family: var(--font-script);
-  font-weight: 700;
-  font-size: clamp(1.6rem, 2.2vw, 2.4rem);
-  line-height: 1.15;
-  color: var(--teal-800);
-}
-.aud__gets {
-  display: grid;
-  gap: 10px;
-  align-content: start;
-}
-.aud__gets li {
+/* ---------- Who it's for: three portrait panels; the open one carries a letter addressed to that person ---------- */
+.who {
+  /* sizes come from the row's own width, so the letter keeps one width while the panels slide
+     (its text never re-wraps mid-animation) */
+  --gap: 16px;
+  --grow: 4.2;
+  --col: calc((100cqw - 2 * var(--gap)) / (var(--grow) + 2));
+  --exp: calc(var(--col) * var(--grow));
+  --letter-w: calc(var(--exp) * 0.52);
+  --photo-w: calc(var(--exp) - var(--letter-w) + 70px);
+  container-type: inline-size;
   display: flex;
-  gap: 10px;
-  color: var(--ink-2);
-}
-.aud__gets svg {
-  flex: none;
-  margin-top: 4px;
-  color: var(--bronze-600);
+  gap: var(--gap);
+  height: clamp(560px, 72vh, 680px);
 }
 
-/* Cursor-following portrait */
-.aud__preview {
+.wp {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  isolation: isolate;
+  /* the desk the letter lies on: same grid and glow as the site's other dark panels */
+  background:
+    radial-gradient(60% 50% at 75% 45%, rgb(220 178 126 / 0.16), transparent 70%),
+    linear-gradient(rgb(217 194 163 / 0.05) 1px, transparent 1px) 0 0 / 44px 44px,
+    linear-gradient(90deg, rgb(217 194 163 / 0.05) 1px, transparent 1px) 0 0 / 44px 44px,
+    var(--teal-900);
+  box-shadow: 0 30px 60px -36px rgb(7 30 31 / 0.6);
+  contain: layout paint;
+  transition: flex-grow 0.75s cubic-bezier(0.45, 0, 0.2, 1);
+}
+.wp.is-on {
+  flex-grow: var(--grow);
+}
+
+/* the portrait: full panel when closed, the left part when open */
+.wp__photo {
   position: absolute;
   top: 0;
+  bottom: 0;
   left: 0;
-  z-index: 4;
-  width: 230px;
-  height: 290px;
-  margin: -145px 0 0 -115px;
+  width: var(--col);
+  transition: width 0.75s cubic-bezier(0.45, 0, 0.2, 1);
+}
+.wp.is-on .wp__photo {
+  width: var(--photo-w);
+}
+.wp__photo .photo {
+  position: absolute;
+  inset: 0;
+}
+.wp__photo .photo img {
+  object-position: 50% 10%; /* the faces sit high in these portraits; keep a little headroom */
+}
+/* closed panels sit slightly back; a plain overlay is much cheaper to fade than a filter on a resizing image */
+.wp__dim {
+  position: absolute;
+  inset: 0;
+  background: rgb(7 30 31 / 0.32);
   pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+.wp:not(.is-on):hover .wp__dim {
+  opacity: 0.4;
+}
+.wp.is-on .wp__dim {
   opacity: 0;
-  scale: 0.6;
-  transition:
-    opacity 0.3s ease,
-    scale 0.45s var(--ease-out);
 }
-.aud__list.is-hovering .aud__preview {
-  opacity: 1;
-  scale: 1;
-}
-.aud__card {
+/* open: the portrait's right edge melts into the desk instead of ending in a hard line */
+.wp__photo::before {
+  content: "";
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: flex-end;
-  padding: 10px;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 30px 60px -20px rgb(7 30 31 / 0.55);
+  z-index: 1;
+  background: linear-gradient(to right, transparent 62%, var(--teal-900));
   opacity: 0;
-  rotate: -5deg;
-  transition:
-    opacity 0.3s ease,
-    rotate 0.5s var(--ease-out);
+  pointer-events: none;
+  transition: opacity 0.6s ease;
 }
-.aud__card.is-on {
+.wp.is-on .wp__photo::before {
   opacity: 1;
-  rotate: 3deg;
 }
-.aud__card .photo,
-.aud__mobile-photo .photo {
+.wp__photo::after {
+  content: "";
   position: absolute;
   inset: 0;
+  background: linear-gradient(to top, rgb(7 30 31 / 0.9), rgb(7 30 31 / 0.25) 42%, transparent 68%);
+  pointer-events: none;
 }
-.aud__initials {
+.wp__initials {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 3rem;
-  color: rgb(217 194 163 / 0.5);
-}
-.aud__card-label {
-  position: relative;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: var(--paper);
-  color: var(--teal-900);
-  font-size: 0.78rem;
-  font-weight: 700;
+  font-size: 2rem;
+  color: rgb(246 240 230 / 0.5);
 }
 
-@media (hover: none), (max-width: 860px) {
-  .aud__preview {
-    display: none;
-  }
+.wp__num {
+  position: absolute;
+  top: 22px;
+  left: 22px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--gold);
 }
-@media (max-width: 860px) {
-  .aud__trigger {
-    grid-template-columns: 36px minmax(0, 1fr) 28px;
-    gap: 14px;
+.wp__num::after {
+  content: "";
+  width: 28px;
+  height: 1.5px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* closed: the title runs up the panel */
+.wp__vtitle {
+  position: absolute;
+  left: 22px;
+  bottom: 84px;
+  z-index: 2;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.4rem, 1.7vw, 2.1rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: var(--paper);
+  transition: opacity 0.4s ease 0.35s; /* reappears once its panel has narrowed */
+}
+.wp.is-on .wp__vtitle {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* open: the title sits across the bottom of the portrait */
+.wp__title {
+  position: absolute;
+  left: 28px;
+  bottom: 26px;
+  z-index: 2;
+  width: calc(var(--photo-w) - 70px - 56px);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 2.6vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: var(--paper);
+  opacity: 0;
+  translate: 0 16px;
+  transition:
+    opacity 0.2s ease,
+    translate 0.2s ease;
+}
+.wp.is-on .wp__title {
+  opacity: 1;
+  translate: none;
+  transition:
+    opacity 0.45s ease 0.35s,
+    translate 0.6s var(--ease-out) 0.35s;
+}
+
+/* the whole closed panel is the button */
+.wp__open {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 22px;
+  border-radius: inherit;
+}
+.wp__open svg {
+  box-sizing: content-box;
+  padding: 10px;
+  border-radius: 50%;
+  background: rgb(7 30 31 / 0.55);
+  box-shadow: inset 0 0 0 1px rgb(246 240 230 / 0.25);
+  color: var(--paper);
+  transition:
+    rotate 0.4s var(--ease-out),
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+.wp__open:hover svg {
+  rotate: 90deg;
+  background: var(--gold);
+  color: var(--teal-950);
+}
+.wp__open:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -6px;
+}
+.wp.is-on .wp__open {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* the letter, laid over the right of the open panel */
+.wp__letter {
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2;
+  display: grid;
+  align-items: center;
+  width: calc(var(--letter-w) - 20px);
+  opacity: 0;
+  translate: 32px 0;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    translate 0.25s ease;
+}
+/* the letter arrives as the panel finishes opening */
+.wp.is-on .wp__letter {
+  opacity: 1;
+  translate: none;
+  pointer-events: auto;
+  transition:
+    opacity 0.45s ease 0.3s,
+    translate 0.6s var(--ease-out) 0.3s;
+}
+.wp__paper {
+  position: relative;
+  max-height: 100%;
+  overflow: hidden;
+  padding: clamp(26px, 2.2vw, 38px) clamp(22px, 2vw, 34px) clamp(20px, 1.8vw, 30px);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(180deg, transparent 0 2.1em, rgb(16 60 61 / 0.05) 2.1em calc(2.1em + 1px)),
+    #fffcf6;
+  box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.6);
+  rotate: -0.8deg;
+}
+/* airmail stripe */
+.wp__paper::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 7px;
+  background: repeating-linear-gradient(-45deg, var(--teal-800) 0 10px, #fffcf6 10px 15px, var(--bronze-500) 15px 25px, #fffcf6 25px 30px);
+}
+
+/* rows write themselves in, one after another */
+.wp__paper > :not(.wp__pm),
+.wp__gets li {
+  opacity: 0;
+  translate: 0 8px;
+  transition:
+    opacity 0.2s ease,
+    translate 0.2s ease;
+}
+.wp.is-on .wp__paper > :not(.wp__pm),
+.wp.is-on .wp__gets li {
+  opacity: 1;
+  translate: none;
+  transition:
+    opacity 0.4s ease calc(0.38s + var(--i, 0) * 55ms),
+    translate 0.55s var(--ease-out) calc(0.38s + var(--i, 0) * 55ms);
+}
+
+.wp__pm {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: clamp(58px, 4.4vw, 74px); /* small enough to stay in the address row, clear of the quote */
+  aspect-ratio: 1;
+  color: rgb(16 60 61 / 0.55);
+  pointer-events: none;
+  opacity: 0;
+  scale: 1.5;
+  rotate: -30deg;
+  transition:
+    opacity 0.2s ease,
+    scale 0.2s ease,
+    rotate 0.2s ease;
+}
+.wp.is-on .wp__pm {
+  opacity: 1;
+  scale: 1;
+  rotate: -12deg;
+  transition:
+    opacity 0.25s ease 0.7s,
+    scale 0.5s var(--ease-spring) 0.7s,
+    rotate 0.5s var(--ease-spring) 0.7s;
+}
+.wp__pm svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.wp__pm circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 3;
+}
+.wp__pm text {
+  fill: currentColor;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 2.4px;
+}
+.wp__pm .wp__pm-num {
+  font-size: 46px;
+  letter-spacing: -1px;
+}
+
+.wp__to {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  min-height: clamp(46px, 3.6vw, 58px);
+  padding: 0 clamp(64px, 5vw, 84px) 12px 0;
+  border-bottom: 1px dashed var(--line-strong);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--teal-950);
+}
+.wp__to span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.wp__pain {
+  margin-top: 18px;
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(1.45rem, 1.7vw, 2rem);
+  line-height: 1.12;
+  color: var(--teal-800);
+}
+.wp__label {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+.wp__gets {
+  display: grid;
+  gap: 9px;
+}
+.wp__gets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+.wp__gets svg {
+  flex: none;
+  box-sizing: content-box;
+  margin-top: 1px;
+  padding: 3px;
+  border-radius: 50%;
+  background: var(--teal-900);
+  color: var(--gold);
+}
+.wp__sign {
+  margin-top: 18px;
+  font-size: 0.88rem;
+  color: var(--ink-3);
+}
+.wp__sign span {
+  display: block;
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: 1.9rem;
+  line-height: 0.95;
+  color: var(--teal-800);
+}
+
+/* ---------- Tablets and phones: all three shown in full, one after another ---------- */
+@media (max-width: 1060px) {
+  .who {
+    flex-direction: column;
+    height: auto;
+    gap: 28px;
+    max-width: 760px;
+    margin-inline: auto;
   }
-  .aud__tag {
-    display: none;
+  .wp {
+    flex: none;
+    overflow: visible;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
   }
-  .aud__title {
-    font-size: clamp(1.55rem, 7.4vw, 2.4rem);
-  }
-  .aud__row.is-open .aud__title {
-    transform: none;
-  }
-  .aud__detail > div {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .aud__detail > div > * {
-    margin-bottom: 0;
-  }
-  .aud__mobile-photo {
-    display: block;
+  .wp__photo,
+  .wp.is-on .wp__photo {
     position: relative;
+    width: 100%;
     aspect-ratio: 4 / 3;
-    border-radius: 18px;
+    border-radius: var(--r-xl);
     overflow: hidden;
   }
-  .aud__pain {
-    grid-column: auto;
+  .wp__photo .photo img {
+    filter: none;
   }
-  .aud__gets {
-    padding-bottom: 28px;
+  .wp__photo::before {
+    display: none;
+  }
+  .wp__dim {
+    display: none;
+  }
+  .wp__vtitle,
+  .wp__open {
+    display: none;
+  }
+  .wp__title {
+    width: auto;
+    right: 24px;
+    bottom: 64px;
+    font-size: clamp(1.8rem, 6vw, 2.6rem);
+    opacity: 1;
+    translate: none;
+  }
+  .wp__letter {
+    position: relative;
+    inset: auto;
+    width: auto;
+    margin: -44px 14px 0;
+    opacity: 1;
+    translate: none;
+    pointer-events: auto;
+  }
+  .wp__paper > :not(.wp__pm),
+  .wp__gets li {
+    opacity: 1;
+    translate: none;
+  }
+  .wp__pm {
+    opacity: 1;
+    scale: 1;
+    rotate: -12deg;
+  }
+}
+@media (max-width: 640px) {
+  .wp__photo,
+  .wp.is-on .wp__photo {
+    aspect-ratio: 4 / 4.2;
+  }
+  .wp__title {
+    left: 20px;
+    right: 20px;
+    bottom: 56px;
+  }
+  .wp__letter {
+    margin: -40px 8px 0;
+  }
+  .wp__paper {
+    padding: 24px 18px 18px;
+    rotate: 0deg;
+  }
+  .wp__to {
+    padding-right: 74px;
+    font-size: 0.88rem;
+  }
+  .wp__gets li {
+    font-size: 0.9rem;
   }
 }
