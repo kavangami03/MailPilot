@@ -12,6 +12,7 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const linksRef = useRef<HTMLElement>(null);
   const indicator = useRef<HTMLSpanElement>(null);
+  const hoverPill = useRef<HTMLSpanElement>(null);
   const header = useRef<HTMLElement>(null);
 
   // Hide on scroll down, show on scroll up; scrollspy for the sliding highlight.
@@ -69,15 +70,45 @@ export function Nav() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  // a soft pill that glides to whichever link the mouse is on (it appears in place, then slides between links)
+  const showHover = (e: React.PointerEvent<HTMLAnchorElement>) => {
+    const h = hoverPill.current;
+    if (!h || e.pointerType !== "mouse") return;
+    const a = e.currentTarget;
+    if (h.style.opacity !== "1") {
+      h.style.transition = "none";
+      h.style.width = `${a.offsetWidth}px`;
+      h.style.transform = `translateX(${a.offsetLeft}px)`;
+      void h.offsetWidth;
+      h.style.transition = "";
+    }
+    h.style.width = `${a.offsetWidth}px`;
+    h.style.transform = `translateX(${a.offsetLeft}px)`;
+    h.style.opacity = "1";
+  };
+  const hideHover = () => {
+    if (hoverPill.current) hoverPill.current.style.opacity = "0";
+  };
+
   return (
     <header className={`nav ${hidden && !open ? "is-hidden" : ""} ${open ? "is-open" : ""}`} ref={header}>
       <div className="nav__pill">
         <Logo className="nav__logo" />
-        <nav className="nav__links" aria-label="Primary" ref={linksRef}>
+        <nav className="nav__links" aria-label="Primary" ref={linksRef} onPointerLeave={hideHover}>
+          <span className="nav__hover" ref={hoverPill} aria-hidden="true" />
           <span className="nav__indicator" ref={indicator} aria-hidden="true" />
           {nav.map((item, i) => (
-            <a key={item.href} href={item.href} className={i === active ? "is-active" : ""} aria-current={i === active ? "true" : undefined}>
-              {item.label}
+            <a
+              key={item.href}
+              href={item.href}
+              className={i === active ? "is-active" : ""}
+              aria-current={i === active ? "true" : undefined}
+              onPointerEnter={showHover}
+            >
+              <span className="nav__roll">
+                <span>{item.label}</span>
+                <span aria-hidden="true">{item.label}</span>
+              </span>
             </a>
           ))}
         </nav>

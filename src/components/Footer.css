@@ -279,7 +279,13 @@
   flex-wrap: wrap;
   gap: 8px 22px;
 }
-.foot__legal a {
+.foot__copy {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 22px;
+}
+.foot__legal a,
+.foot__credit a {
   color: rgb(246 240 230 / 0.85);
   font-weight: 500;
   text-decoration: underline;
@@ -289,9 +295,13 @@
     color 0.2s ease,
     text-decoration-color 0.2s ease;
 }
-.foot__legal a:hover {
+.foot__legal a:hover,
+.foot__credit a:hover {
   color: var(--paper);
   text-decoration-color: var(--gold);
+}
+.foot__credit a {
+  font-weight: 600;
 }
 .foot__strong {
   font-weight: 700;

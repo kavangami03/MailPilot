@@ -121,7 +121,15 @@ export function Footer({ home = true }: { home?: boolean }) {
         </div>
 
         <div className="foot__bottom">
-          <span>© 2026 MailPilot AI. All rights reserved.</span>
+          <span className="foot__copy">
+            <span>© 2026 MailPilot AI. All rights reserved.</span>
+            <span className="foot__credit">
+              Designed &amp; developed by{" "}
+              <a href={links.softqube} target="_blank" rel="noopener">
+                Softqube Technologies
+              </a>
+            </span>
+          </span>
           <span className="foot__legal">
             <a href={links.privacy}>Privacy Policy</a>
             <a href={links.terms}>Terms &amp; Conditions</a>

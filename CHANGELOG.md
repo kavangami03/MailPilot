@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Brochure rebuilt as a 3D book, modelled on the JobHunter brochure: pinned on scroll, the cover opens and pages turn spread by spread while the chapter list tracks the open pages. It uses the new brochure PDF, hosted locally, and swipeable pages on small screens.
 - SuperMIA and Botfinity links point to supermia.ai and botfinity.ai.
 - Mobile pass down to 320px: removed horizontal overflow (DayStrip stamp, step cards), tighter section spacing, swipeable "How it works" cards, compact FAQ, and fixes to Who it's for, Final CTA, Footer, Brochure and Control.
+- Header links: the section you're on is marked by a warm bronze pill that slides along as you scroll; on hover a soft pill glides to the link and its label rolls up.
 - New animated header: burger morphs to a cross, a full-screen menu grows out of it with staggered links, and a reading-progress line runs along the pill.
 - New pages: `/privacy/` and `/terms/`, plain-language versions of the official SuperMIA documents, linking to the binding versions.
 - Every link and button shows a pointer cursor.
@@ -44,6 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - "Who it's for" panels open smoothly: a panel opens only after the mouse moves over it and settles, never while another is still opening, so panels no longer bounce back and forth; new portraits of three different American women, with descriptive alt text.
 - "How it works": the sticky panel is now a setup window, with a title bar showing the step count, a stepper (Persona, Connect, Manage, Review) whose line fills as you scroll, the current step's card, and a status bar with the step's time and an "under 20 minutes" meter.
 - Cleanup: removed old design backups, scratch files, unused images, Tailwind (installed but unused), stale docs (ARCHITECTURE, ROADMAP, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY), unused data, hooks and CSS. Build tools moved to devDependencies.
+- Footer: "Designed & developed by Softqube Technologies" credit in the bottom row, linking to softqubes.com.
 - Footer: a security & compliance strip with a "CASA certified" badge (Cloud Application Security Assessment), plus AES-256 encryption and "Gmail data never used for ads or to train general AI models" from the official privacy policy. Shown on every page.
 - Footer: envelope flap and seal no longer overlap the columns; a cleaner Office column; real platform icons (also in the hero).
 

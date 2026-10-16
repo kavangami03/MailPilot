@@ -9,6 +9,7 @@ export const links = {
   product: "https://supermia.ai/ai-mailpilot/",
   supermia: "https://supermia.ai/",
   botfinity: "https://botfinity.ai/",
+  softqube: "https://softqubes.com/",
   privacy: "/privacy/",
   terms: "/terms/",
   email: "mailto:hello@supermia.ai",
