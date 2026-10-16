@@ -11,7 +11,7 @@ import "./Legal.css";
 export function Legal({ doc }: { doc: LegalDoc }) {
   const d = legal[doc];
   const [active, setActive] = useState(d.sections[0].id);
-  const [wide] = useState(() => window.matchMedia("(min-width: 961px)").matches);
+  const [wide] = useState(() => typeof window !== "undefined" && window.matchMedia("(min-width: 961px)").matches);
   useSmoothScroll();
   useReveals();
 

@@ -14,7 +14,7 @@ Marketing site for **MailPilot AI**, the email agent by [SuperMIA](https://super
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # type-check + production build in dist/
+npm run build    # type-check, production build and pre-render into dist/
 npm run preview  # serve the production build
 npm run check    # Playwright smoke test (needs the dev server running)
 ```
@@ -42,6 +42,14 @@ scripts/
 ## Home page sections
 
 Hero (folding letter) → The 3.1-hour day → Product player → Five folders → How it works → Who it's for → Control (approval desk) → Brochure (3D book) → FAQ → Final CTA → Footer
+
+## SEO
+
+`npm run build` type-checks, builds the client, then pre-renders every page to static HTML (`src/entry-server.tsx` and `scripts/prerender.mjs`), so search engines and link previews see the full content without running JavaScript. The same step writes the structured data, `sitemap.xml` and `robots.txt`.
+
+The public address lives in one place, `SITE_URL` in `vite.config.ts` (currently `https://mail-pilot-nu.vercel.app`). When the site moves to its own domain, set a `SITE_URL` environment variable on the host (for Vercel: Project Settings, Environment Variables) and redeploy; canonical links, social cards, structured data and the sitemap all follow.
+
+After each domain change, submit `/sitemap.xml` in Google Search Console and Bing Webmaster Tools.
 
 ## Docs
 

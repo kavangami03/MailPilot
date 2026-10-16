@@ -65,7 +65,7 @@ export function Audience() {
               <div className="aud__detail">
                 <div>
                   <div className="aud__mobile-photo">
-                    <Photo name={c.photo} alt="">
+                    <Photo name={c.photo} alt={c.alt}>
                       <span className="aud__initials">{c.initials}</span>
                     </Photo>
                   </div>

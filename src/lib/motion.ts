@@ -24,6 +24,7 @@ export function useSmoothScroll() {
     if (prefersReducedMotion()) return;
     lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, touchMultiplier: 1.4, anchors: false });
     lenis.on("scroll", ScrollTrigger.update);
+    if (document.documentElement.classList.contains("is-loading")) lenis.stop();
     const tick = (time: number) => lenis!.raf(time * 1000);
     gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);

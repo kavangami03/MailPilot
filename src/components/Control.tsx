@@ -15,7 +15,7 @@ const queue = [
     to: "Maya Chen",
     kind: "Reply",
     subject: "Re: Launch notes",
-    body: "Hi Maya — edits back by Thursday at 2pm, priority items first. The partner call stands, and Jon owns the pricing slide; I've copied him.",
+    body: "Hi Maya, edits back by Thursday at 2pm, priority items first. The partner call stands, and Jon owns the pricing slide; I've copied him.",
   },
   {
     id: "jon",
@@ -23,8 +23,8 @@ const queue = [
     tone: "bronze" as const,
     to: "Jon Bell",
     kind: "Follow-up",
-    subject: "Proposal — next step",
-    body: "Hi Jon — circling back on the proposal. Would a 20-minute call on Thursday help us agree the next step?",
+    subject: "Proposal: next step",
+    body: "Hi Jon, circling back on the proposal. Would a 20-minute call on Thursday help us agree the next step?",
   },
   {
     id: "priya",
@@ -33,7 +33,7 @@ const queue = [
     to: "Priya Shah",
     kind: "Reply",
     subject: "Re: Renewal kickoff",
-    body: "Hi Priya — Monday works well for the kickoff. I'll bring last quarter's numbers so we can plan the year properly.",
+    body: "Hi Priya, Monday works well for the kickoff. I'll bring last quarter's numbers so we can plan the year properly.",
   },
   {
     id: "lena",
@@ -42,7 +42,7 @@ const queue = [
     to: "Lena Koch",
     kind: "Follow-up",
     subject: "Quick check-in",
-    body: "Hi Lena — just checking the samples arrived safely. Happy to walk your team through them whenever suits.",
+    body: "Hi Lena, just checking the samples arrived safely. Happy to walk your team through them whenever suits.",
   },
 ];
 
@@ -434,7 +434,7 @@ export function Control() {
                 ))}
               </ol>
               <figure className="tray__photo">
-                <Photo name="seal-hand" alt="" />
+                <Photo name="seal-hand" alt="A hand pressing a wax seal onto an envelope" />
                 <figcaption>the real thing, minus the wax</figcaption>
               </figure>
             </aside>

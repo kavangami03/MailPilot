@@ -1,22 +1,61 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="is-loading">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#071E1F" />
+    <title>MailPilot AI | AI Email Assistant That Writes in Your Voice</title>
     <meta
       name="description"
-      content="MailPilot AI is the email agent that drafts replies in your voice, runs your follow-ups, and keeps every important relationship warm. You stay the captain."
+      content="MailPilot AI is the AI email assistant for Gmail and Outlook. It drafts replies in your voice, runs your follow-ups and keeps relationships warm. Start free."
     />
-    <title>MailPilot AI — Your inbox, on autopilot</title>
-    <meta property="og:title" content="MailPilot AI — Your inbox, on autopilot" />
+    <meta
+      name="keywords"
+      content="MailPilot, Mail Pilot, MailPilot AI, Mail Pilot AI, AI email assistant, AI email reply generator, AI email writer, automated email follow-ups, email automation, Gmail AI assistant, Outlook AI assistant, AI inbox management, SuperMIA"
+    />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="author" content="SuperMIA" />
+    <meta name="application-name" content="MailPilot AI" />
+    <meta name="theme-color" content="#071E1F" />
+    <link rel="canonical" href="%SITE_URL%/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MailPilot AI" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:title" content="MailPilot AI | AI Email Assistant That Writes in Your Voice" />
     <meta
       property="og:description"
-      content="Drafts every reply in your voice, runs your follow-ups and keeps every relationship warm. You stay the captain."
+      content="Drafts every reply in your voice, runs your follow-ups and keeps every relationship warm. Works with Gmail and Outlook. Start free."
     />
-    <meta property="og:image" content="/images/og-image.jpg" />
+    <meta property="og:image" content="%SITE_URL%/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="A cream envelope closed with a bronze MailPilot wax seal on a dark teal desk" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" type="image/png" href="/mailpilot-mark.png" />
+    <meta name="twitter:title" content="MailPilot AI | AI Email Assistant That Writes in Your Voice" />
+    <meta
+      name="twitter:description"
+      content="Drafts every reply in your voice, runs your follow-ups and keeps every relationship warm. Works with Gmail and Outlook. Start free."
+    />
+    <meta name="twitter:image" content="%SITE_URL%/images/og-image.jpg" />
+    <meta name="twitter:image:alt" content="A cream envelope closed with a bronze MailPilot wax seal on a dark teal desk" />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- first paint matches the entry loader, so there's no flash before it mounts -->
+    <style>
+      html {
+        scrollbar-gutter: stable;
+      }
+      html.is-loading,
+      html.is-loading body {
+        overflow: hidden;
+        background: #071e1f;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

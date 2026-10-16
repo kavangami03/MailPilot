@@ -5,6 +5,8 @@
 }
 
 html {
+  /* keep the scrollbar's space even while the loader stops scrolling, so the layout never shifts */
+  scrollbar-gutter: stable;
   -webkit-text-size-adjust: 100%;
   scroll-padding-top: 100px;
 }

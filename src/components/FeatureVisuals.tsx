@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Check, Clock, CornerUpLeft, Pause, PenLine, Sparkles, StickyNote } from "lucide-react";
-import { contacts, drafts, type FeatureVisual, type Tone } from "../data/content";
+import { contacts, countWords, drafts, type FeatureVisual, type Tone } from "../data/content";
 import { Avatar } from "./ui";
 import "./FeatureVisuals.css";
 
@@ -32,7 +32,7 @@ function Voice() {
         {d.text}
       </p>
       <div className="fv__foot">
-        <span className="chip">{d.words} words</span>
+        <span className="chip">{countWords(d.text)} words</span>
         <span className="fv__wait">
           <CornerUpLeft size={13} /> Waiting for your review
         </span>
@@ -88,7 +88,7 @@ function FollowUps() {
   return (
     <div className="ui fv">
       <div className="fv__head">
-        <strong>Proposal — Studio Vale</strong>
+        <strong>Proposal · Studio Vale</strong>
         <span className="chip">
           <span className="dot" /> Sequence active
         </span>
@@ -110,7 +110,7 @@ function FollowUps() {
             <div>
               <em>{s.when}</em>
               <p>{s.title}</p>
-              {s.state === "active" && <blockquote>“Hi Jon — circling back on the proposal. Would a 20-minute call Thursday help us agree the next step?”</blockquote>}
+              {s.state === "active" && <blockquote>“Hi Jon, circling back on the proposal. Would a 20-minute call Thursday help us agree the next step?”</blockquote>}
             </div>
           </li>
         ))}

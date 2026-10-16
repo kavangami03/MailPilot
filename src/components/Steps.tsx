@@ -10,7 +10,7 @@ function ScenePersona() {
       <p className="sc__label">Your Persona</p>
       <div className="sc__field">
         <span>Describe how you write</span>
-        <p>Direct and warm. Short paragraphs. I open with “Hi {"{first}"} —” and sign off “Best, Alex”.</p>
+        <p>Direct and warm. Short paragraphs. I open with “Hi {"{first}"},” and sign off “Best, Alex”.</p>
       </div>
       <div className="sc__row sc__chips" style={{ ["--i" as string]: 1 }}>
         <span className="chip chip--bronze">+ 3 sample emails</span>
@@ -119,7 +119,7 @@ function SceneReview() {
             <em>Drafted in your voice · 96% match</em>
           </span>
         </div>
-        <p>Hi Maya — edits back by Thursday 2pm. The partner call stands, and Jon owns pricing (cc'd). Best, Alex</p>
+        <p>Hi Maya, edits back by Thursday 2pm. The partner call stands, and Jon owns pricing (cc'd). Best, Alex</p>
         <div className="sc__actions">
           <span className="chip chip--ghost">Edit</span>
           <span className="sc__approve">

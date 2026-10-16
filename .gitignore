@@ -1,6 +1,7 @@
 # Dependencies & build output
 node_modules/
 dist/
+dist-ssr/
 *.tsbuildinfo
 
 # Local design-iteration backups and scratch screenshots

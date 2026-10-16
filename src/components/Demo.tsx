@@ -9,7 +9,7 @@ const REPLY = drafts.executive.text;
 const fmt = (s: number) => `0:${String(Math.floor(s)).padStart(2, "0")}`;
 
 const rows = [
-  { id: "jon", name: "Jon Bell", initials: "JB", tone: "bronze" as const, subject: "Proposal — any thoughts?", time: "Mon" },
+  { id: "jon", name: "Jon Bell", initials: "JB", tone: "bronze" as const, subject: "Proposal: any thoughts?", time: "Mon" },
   { id: "priya", name: "Priya Shah", initials: "PS", tone: "teal" as const, subject: "Renewal kickoff", time: "Tue" },
   { id: "fin", name: "Finance", initials: "FI", tone: "dark" as const, subject: "Invoice #2291", time: "Tue" },
   { id: "lena", name: "Lena Okafor", initials: "LO", tone: "teal" as const, subject: "Quarterly review deck", time: "Wed" },
@@ -232,7 +232,7 @@ export function Demo() {
                     <Avatar name="maya" initials="MC" />
                     <span className="dm__row-text">
                       <strong>{incomingEmail.from}</strong>
-                      <span>Launch notes — review before Thu?</span>
+                      <span>Launch notes: review before Thu?</span>
                     </span>
                     <span className="dm__row-side">
                       <time>9:42</time>
@@ -273,7 +273,7 @@ export function Demo() {
                         <Check size={11} /> Review copy by Thursday
                       </span>
                       <span className="chip">
-                        <Check size={11} /> Partner call — still on?
+                        <Check size={11} /> Partner call: still on?
                       </span>
                       <span className="chip">
                         <Check size={11} /> Who owns pricing slide
@@ -320,7 +320,7 @@ export function Demo() {
                     </p>
                   ))}
                   <p className="dm__persona-voice">
-                    “Hi Maya —” <span>…</span> “Best, Alex”
+                    “Hi Maya,” <span>…</span> “Best, Alex”
                   </p>
                 </div>
 

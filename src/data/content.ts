@@ -3,7 +3,7 @@
 
 export const links = {
   signup: "https://mia.supermia.ai/signup",
-  login: "https://mia.supermia.ai/login",
+  login: "https://mailpilot.supermia.ai/",
   demo: "https://supermia.ai/schedule-demo/",
   brochure: "/brochure/mailpilot-brochure.pdf",
   product: "https://supermia.ai/ai-mailpilot/",
@@ -36,74 +36,34 @@ export type Tone = "executive" | "warm" | "concise";
 export const incomingEmail = {
   from: "Maya Chen",
   company: "Northstar",
-  subject: "Launch notes — can you review before Thursday?",
-  body: "Hi! Attaching the launch notes. Could you review the final copy before Thursday? Also — are we still on for the partner call, and who owns the pricing slide?",
+  subject: "Launch notes: can you review before Thursday?",
+  body: "Hi! Attaching the launch notes. Could you review the final copy before Thursday? Also, are we still on for the partner call, and who owns the pricing slide?",
 };
 
-export const drafts: Record<Tone, { text: string; traits: Record<string, number>; words: number }> = {
+/** Words in a draft, as the word-count chip shows it. */
+export const countWords = (text: string) => text.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
+
+export const drafts: Record<Tone, { text: string; traits: Record<string, number> }> = {
   executive: {
-    text: "Hi Maya — thanks for sending these. I'll review the final copy and return edits by Thursday at 2pm, priority items first. The partner call stands. Jon owns the pricing slide; I've copied him so he can confirm. Best, Alex",
+    text: "Hi Maya, thanks for sending these. I'll review the final copy and return edits by Thursday at 2pm, priority items first. The partner call stands. Jon owns the pricing slide; I've copied him so he can confirm. Best, Alex",
     traits: { Formality: 86, Warmth: 48, Brevity: 72, Directness: 90 },
-    words: 41,
   },
   warm: {
-    text: "Hi Maya, thank you for pulling this together — it reads beautifully already. I'll take a careful pass and have edits back to you by Thursday afternoon. Yes, still on for the partner call! Jon's got the pricing slide, I've looped him in. Talk soon, Alex",
+    text: "Hi Maya, thank you for pulling this together. It reads beautifully already. I'll take a careful pass and have edits back to you by Thursday afternoon. Yes, still on for the partner call! Jon's got the pricing slide, I've looped him in. Talk soon, Alex",
     traits: { Formality: 44, Warmth: 94, Brevity: 52, Directness: 66 },
-    words: 46,
   },
   concise: {
-    text: "Maya — edits back by Thu 2pm. Partner call: confirmed. Pricing slide: Jon (cc'd). — A",
+    text: "Maya, edits back by Thu 2pm. Partner call: confirmed. Pricing slide: Jon (cc'd). Thanks, A",
     traits: { Formality: 58, Warmth: 30, Brevity: 98, Directness: 96 },
-    words: 15,
   },
 };
 
 export const contacts = [
-  { id: "maya", name: "Maya Chen", role: "Product Lead · Northstar", initials: "MC", days: 2, score: 96, status: "healthy" as const, next: "Edits due Thursday 2pm — draft is ready for you." },
+  { id: "maya", name: "Maya Chen", role: "Product Lead · Northstar", initials: "MC", days: 2, score: 96, status: "healthy" as const, next: "Edits due Thursday 2pm. Draft is ready for you." },
   { id: "jon", name: "Jon Bell", role: "Partner · Studio Vale", initials: "JB", days: 18, score: 61, status: "cooling" as const, next: "Follow-up drafted: reopen the proposal with one clear next step." },
   { id: "priya", name: "Priya Shah", role: "Customer Success · Relay", initials: "PS", days: 1, score: 98, status: "healthy" as const, next: "No action needed. Thread pinned for Monday." },
   { id: "dev", name: "Dev Raman", role: "Founder · Arclight", initials: "DR", days: 26, score: 44, status: "cooling" as const, next: "Going cold. Suggested reason to reach out: their Series A news." },
   { id: "lena", name: "Lena Okafor", role: "VP Ops · Fieldwork", initials: "LO", days: 7, score: 88, status: "healthy" as const, next: "Follow-up scheduled for Friday if no reply." },
-];
-
-
-[] = [
-  {
-    n: "01",
-    badge: "147 unread",
-    title: "Hours disappear into the inbox.",
-    text: "Sorting, rereading, agonising over tone. The average professional spends 3.1 hours a day on email, and most of it is the same work, over and over.",
-    fix: "Replies drafted in your voice",
-    photo: "problem-overload",
-    mock: "overload",
-  },
-  {
-    n: "02",
-    badge: "No reply · 2 days",
-    title: "One slow reply, and a warm lead goes cold.",
-    text: "Your pipeline lives in the inbox. While a proposal sits unanswered, the prospect quietly moves on to someone who replied first.",
-    fix: "Drafts ready before you open the thread",
-    photo: "problem-waiting",
-    mock: "slow",
-  },
-  {
-    n: "03",
-    badge: "12 overdue",
-    title: "The follow-up you meant to send.",
-    text: "Sticky notes, starred emails, reminders to remind yourself. Follow-ups slip because nobody has time to chase every thread.",
-    fix: "Follow-ups that run themselves",
-    photo: "problem-followups",
-    mock: "followups",
-  },
-  {
-    n: "04",
-    badge: "Last reply · 26 days",
-    title: "Important relationships go quiet.",
-    text: "Client relationships are the business. Neglect a high-value contact by accident, and the next project goes somewhere else.",
-    fix: "Alerts before a contact goes cold",
-    photo: "problem-cold",
-    mock: "cold",
-  },
 ];
 
 export const demoChapters = [
@@ -118,13 +78,14 @@ export const DEMO_LENGTH = 24;
 
 export type FeatureVisual = "voice" | "relationships" | "followups" | "overview" | "instructions";
 
-export const features: { id: string; n: string; title: string; text: string; photo: string; visual: FeatureVisual }[] = [
+export const features: { id: string; n: string; title: string; text: string; photo: string; alt: string; visual: FeatureVisual }[] = [
   {
     id: "voice",
     n: "01",
     title: "Replies that sound like you wrote them",
     text: "Set up your Persona once: formality, greetings, sign-offs, sentence rhythm and the phrases you always reach for. Every draft is written against it, so reviewing is a glance, not a rewrite.",
     photo: "persona-writer",
+    alt: "A professional writing at a desk in golden-hour light",
     visual: "voice",
   },
   {
@@ -133,6 +94,7 @@ export const features: { id: string; n: string; title: string; text: string; pho
     title: "Know who's going cold before they do",
     text: "A profile for every contact, built straight from your inbox: history, frequency, last interaction and a relationship score. No CRM to update, nothing to type in.",
     photo: "client-coffee",
+    alt: "Two people talking over coffee in a warm café",
     visual: "relationships",
   },
   {
@@ -141,6 +103,7 @@ export const features: { id: string; n: string; title: string; text: string; pho
     title: "Follow-ups that never slip through",
     text: "No reply inside your window? MailPilot drafts a follow-up from the original thread and your Persona. Approve each one, or let them go out on their own, with per-contact limits.",
     photo: "sales-call",
+    alt: "A professional on a phone call in a sunlit office",
     visual: "followups",
   },
   {
@@ -149,6 +112,7 @@ export const features: { id: string; n: string; title: string; text: string; pho
     title: "Your whole inbox, at a glance",
     text: "The Inbox Performance Overview shows response times, reply rate, open threads, who's waiting on you and how your relationships are trending.",
     photo: "exec-review",
+    alt: "An executive reviewing work at a desk at sunset",
     visual: "overview",
   },
   {
@@ -157,6 +121,7 @@ export const features: { id: string; n: string; title: string; text: string; pho
     title: "Rules for the threads that matter",
     text: "Leave an instruction on any email or contact, like “keep it under 80 words” or “always copy Jon”, and MailPilot follows it for that conversation.",
     photo: "notes-instructions",
+    alt: "A laptop and handwritten notes on a sunlit café table",
     visual: "instructions",
   },
 ];
@@ -164,13 +129,13 @@ export const features: { id: string; n: string; title: string; text: string; pho
 export const steps = [
   {
     title: "Set up your Persona",
-    eta: "10–15 min · once",
+    eta: "10 to 15 min · once",
     text: "Describe how you write or paste a few sample emails. MailPilot learns your formality, greetings, sign-offs and the phrases you always reach for.",
     points: ["Describe your style in plain words", "Or paste a few sample emails", "Fine-tune the tone any time"],
   },
   {
     title: "Connect your inbox",
-    eta: "2–3 min",
+    eta: "2 to 3 min",
     text: "Link Gmail or Outlook. MailPilot reads your existing history to build relationship data, with no spreadsheets and no manual CRM entry.",
     points: ["Gmail & Google Workspace", "Outlook & Office 365", "Two-way sync from your own address"],
   },
@@ -196,6 +161,7 @@ export const crew = [
     pain: "Your pipeline lives in the inbox. One slow reply and a warm prospect goes cold.",
     gets: ["Follow-ups that fire on schedule, every time", "Outreach and reply drafts that sound like you", "More hours for calls and demos"],
     photo: "crew-sales",
+    alt: "A sales professional with headphones in a modern office",
     initials: "SDR",
   },
   {
@@ -205,6 +171,7 @@ export const crew = [
     pain: "Your time is the most expensive in the company, and the inbox quietly eats about three hours of it a day.",
     gets: ["Replies drafted before you open the thread", "Follow-ups managed without a reminder", "Only what truly needs you rises to the top"],
     photo: "crew-exec",
+    alt: "A confident executive in a warm office",
     initials: "CEO",
   },
   {
@@ -214,6 +181,7 @@ export const crew = [
     pain: "Client relationships are the business. Neglect a high-value client by accident and the next project goes elsewhere.",
     gets: ["Every client relationship tracked and scored", "Polished, professional client drafts", "Proposals and follow-ups that never slip"],
     photo: "crew-consult",
+    alt: "A consultant at a warm, bright workspace",
     initials: "PRO",
   },
 ];
@@ -233,7 +201,7 @@ export const brochurePages = brochureChapters.map((_, i) => `/brochure/page-${St
 export const faqs = [
   {
     q: "When should I use MailPilot?",
-    a: "If you spend more than 90 minutes a day on email, struggle to follow up consistently, or want every email you send to be sharper, MailPilot is built for you. It is especially valuable for sales teams, executives, consultants and anyone maintaining a large professional network.",
+    a: "MailPilot is an AI email assistant for Gmail and Outlook. If you spend more than 90 minutes a day on email, struggle to follow up consistently, or want every email you send to be sharper, MailPilot is built for you. It is especially valuable for sales teams, executives, consultants and anyone maintaining a large professional network.",
   },
   {
     q: "How does it learn my writing style?",

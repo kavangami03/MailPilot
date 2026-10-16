@@ -331,24 +331,27 @@
 .lg-contact__card > div {
   display: grid;
   gap: 6px;
+  min-width: 0;
   font-size: 0.92rem;
 }
 .lg-contact__card strong {
   font-family: var(--font-display);
   font-size: 1.1rem;
 }
-.lg-contact__card a,
-.lg-contact__card span {
-  display: inline-flex;
-  align-items: center;
+.lg-contact__card > div > a,
+.lg-contact__card > div > span {
+  display: flex;
+  align-items: flex-start;
   gap: 8px;
+  overflow-wrap: anywhere;
   color: rgb(246 240 230 / 0.8);
 }
-.lg-contact__card a:hover {
+.lg-contact__card > div > a:hover {
   color: var(--gold);
 }
-.lg-contact__card svg {
+.lg-contact__card > div svg {
   flex: none;
+  margin-top: 3px;
   color: var(--gold);
 }
 .lg-contact__seal {
@@ -366,7 +369,8 @@
   rotate: -10deg;
 }
 .lg-contact__seal img {
-  width: 40%;
+  display: block;
+  width: 42%;
   height: auto;
 }
 .lg-official {
@@ -393,13 +397,19 @@
     cursor: pointer;
   }
   .lg-toc summary::after {
-    content: "+";
+    content: "";
     float: right;
-    font-size: 1.1rem;
-    line-height: 0.8;
+    width: 8px;
+    height: 8px;
+    margin: 2px 4px 0 0;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    rotate: 45deg;
+    transition: rotate 0.3s var(--ease-out);
   }
   .lg-toc details[open] summary::after {
-    content: "–";
+    margin-top: 6px;
+    rotate: 225deg;
   }
   .lg-toc ol {
     max-height: none;
@@ -447,10 +457,5 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 20px 18px;
-  }
-  .lg-contact__card a,
-  .lg-contact__card span {
-    align-items: flex-start;
-    overflow-wrap: anywhere;
   }
 }

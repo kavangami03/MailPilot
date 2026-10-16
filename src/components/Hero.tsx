@@ -2,6 +2,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { Play, Send } from "lucide-react";
 import { gsap, prefersReducedMotion, useGSAP } from "../lib/motion";
 import { links, platforms } from "../data/content";
+import { whenLoaded } from "../lib/loader";
 import { photoUrl } from "../lib/photos";
 import { Avatar, PlatformIcon, Scribble } from "./ui";
 import "./Hero.css";
@@ -60,6 +61,8 @@ export function Hero() {
       const ry = gsap.quickTo(tilt, "rotateY", { duration: 1, ease: "power3.out" });
       const onMove = (e: PointerEvent) => {
         if (e.pointerType !== "mouse") return;
+        // keep the letter flat while the scroll scene is posting it
+        if (window.scrollY > 24) return void (rx(0), ry(0));
         ry((e.clientX / window.innerWidth - 0.5) * 7);
         rx(-(e.clientY / window.innerHeight - 0.5) * 5);
       };
@@ -69,40 +72,61 @@ export function Hero() {
       const mm = gsap.matchMedia();
       mm.add("(min-width: 1061px) and (min-height: 640px)", () => {
         const lt = q(".lt")[0] as HTMLElement;
-        const p2 = q(".lt__p2")[0] as HTMLElement;
+        const [p1, p2, p3] = ["1", "2", "3"].map((n) => q(`.lt__p${n}`)[0] as HTMLElement);
         const env = q(".env2-back")[0] as HTMLElement;
         // Untransformed geometry in stage coordinates (offsets ignore transforms).
         const geo = () => {
           const ltTop = tilt.offsetTop + lt.offsetTop;
           const ltc = ltTop + lt.offsetHeight / 2;
-          const p2c = ltTop + p2.offsetTop + p2.offsetHeight / 2;
+          const p2Top = ltTop + p2.offsetTop;
+          const p2Bot = p2Top + p2.offsetHeight;
+          // footprint once folded: p3 folds up over p2, p1 folds down over it
+          const top = Math.min(p2Top, p2Bot - p3.offsetHeight);
+          const bot = Math.max(p2Bot, p2Top + p1.offsetHeight);
           const scale = (env.offsetWidth * 0.82) / lt.offsetWidth;
           const envTop = env.offsetTop;
-          const at = (target: number) => target - ltc - (p2c - ltc) * scale;
-          return { scale, above: at(envTop - p2.offsetHeight * scale * 0.15), inside: at(envTop + env.offsetHeight * 0.3) };
+          const envH = env.offsetHeight;
+          // y that lands the folded letter's top / bottom edge on a given line
+          const topAt = (line: number) => line - ltc - (top - ltc) * scale;
+          const botAt = (line: number) => line - ltc - (bot - ltc) * scale;
+          return {
+            scale,
+            hover: Math.max(botAt(envTop - envH * 0.05), topAt(100)), // clear of the envelope, below the nav
+            inside: topAt(envTop + envH * 0.1),
+          };
         };
         gsap
           .timeline({
             defaults: { ease: "power2.inOut" },
-            scrollTrigger: { trigger: root.current, start: "top top", end: "+=150%", pin: true, scrub: 0.7, invalidateOnRefresh: true },
+            scrollTrigger: {
+              trigger: root.current,
+              start: "top top",
+              end: "+=165%",
+              pin: true,
+              scrub: 0.7,
+              invalidateOnRefresh: true,
+              onUpdate: (self) => self.progress > 0.01 && (rx(0), ry(0)),
+            },
           })
           .to(q(".note, .lt__seal, .hero__scroll"), { autoAlpha: 0, duration: 0.25 }, 0)
           .to(q(".lt__sheet"), { y: 90, autoAlpha: 0, duration: 0.4 }, 0)
           .to(q(".lt__p3"), { rotateX: 179, z: 2, duration: 1 }, 0.1)
           .to(q(".lt__p1"), { rotateX: -179, z: 8, duration: 1 }, 0.9)
-          .fromTo(q(".env2-shadow, .env2-back, .env2-flap, .env2-front"), { yPercent: 150, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, 1.7)
-          .to(lt, { scale: () => geo().scale, y: () => geo().above, duration: 0.8 }, 1.8)
-          .to(lt, { y: () => geo().inside, duration: 0.5, ease: "power2.in" }, 2.6)
-          .set(q(".env2-flap"), { zIndex: 4 }, 3.05)
-          .fromTo(q(".env2-flap__in"), { rotateX: 180 }, { rotateX: 0, duration: 0.45, ease: "power2.in" }, 3.1)
-          .to(q(".lt__tilt"), { autoAlpha: 0, duration: 0.05 }, 3.32)
-          .fromTo(q(".env2-seal .wax"), { scale: 2.6, autoAlpha: 0, rotate: -40 }, { scale: 1, autoAlpha: 1, rotate: -6, duration: 0.32, ease: "back.out(2)" }, 3.5)
-          .to(q(".env2-part, .lt__tilt"), { x: "62vw", y: "-55vh", rotate: 16, scale: 0.5, autoAlpha: 0, duration: 0.9, ease: "power2.in" }, 3.9)
-          .fromTo(q(".hero__sent"), { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 4.4)
+          // the folded letter lifts and shrinks first, so the envelope never passes in front of it
+          .to(lt, { scale: () => geo().scale, y: () => geo().hover, rotation: -2.5, duration: 0.75 }, 1.7)
+          .fromTo(q(".env2-shadow, .env2-back, .env2-flap, .env2-front"), { yPercent: 150, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.8, ease: "power3.out" }, 2.05)
+          // in through the opening: in front of the envelope's inside, behind its pockets
+          .to(lt, { y: () => geo().inside, rotation: 0, duration: 0.6 }, 2.9)
+          .set(q(".env2-flap"), { zIndex: 4 }, 3.55)
+          .fromTo(q(".env2-flap__in"), { rotateX: 180 }, { rotateX: 0, duration: 0.45, ease: "power2.in" }, 3.6)
+          .to(q(".lt__tilt"), { autoAlpha: 0, duration: 0.05 }, 4.0)
+          .fromTo(q(".env2-seal .wax"), { scale: 2.6, autoAlpha: 0, rotate: -40 }, { scale: 1, autoAlpha: 1, rotate: -6, duration: 0.32, ease: "back.out(2)" }, 4.05)
+          .to(q(".env2-part, .lt__tilt"), { x: "62vw", y: "-55vh", rotate: 16, scale: 0.5, autoAlpha: 0, duration: 0.9, ease: "power2.in" }, 4.45)
+          .fromTo(q(".hero__sent"), { autoAlpha: 0, scale: 0.9 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: "back.out(1.8)" }, 4.95)
           .to({}, { duration: 0.4 });
       });
 
-      // ---- entrance (after fonts, so the words are measured correctly) ----
+      // ---- entrance: plays as the entry loader opens (it waits for fonts, so words measure correctly) ----
       let cancelled = false;
       const intro = contextSafe!(() => {
         if (cancelled) return;
@@ -116,11 +140,11 @@ export function Hero() {
           .from(q(".lt h1 .scribble path"), { drawSVG: "0%", duration: 0.8, stagger: 0.1, ease: "power2.out" }, 2)
           .from(q(".lt__body, .lt__actions, .lt__works, .lt__postmark"), { y: 18, autoAlpha: 0, duration: 0.9, stagger: 0.08 }, 1.2)
           .from(q(".lt__sign-name"), { clipPath: "inset(-30% 100% -30% 0%)", duration: 1.1, ease: "power2.inOut" }, 1.9)
-          .from(q(".lt__seal"), { scale: 2.6, rotate: -50, autoAlpha: 0, duration: 0.5, ease: "back.out(2.2)" }, 2.6)
+          .from(q(".lt__seal"), { scale: 1.8, rotate: -50, autoAlpha: 0, duration: 0.5, ease: "back.out(2)" }, 2.4)
           .from(q(".note"), { autoAlpha: 0, duration: 0.6, stagger: 0.25 }, 2.4)
           .from(q(".note path"), { drawSVG: "0%", duration: 0.9, stagger: 0.25, ease: "power2.out" }, 2.6);
       });
-      document.fonts?.ready ? document.fonts.ready.then(intro) : intro();
+      whenLoaded().then(intro);
       return () => {
         cancelled = true;
         root.current?.removeEventListener("pointermove", onMove);
@@ -174,16 +198,14 @@ export function Hero() {
                     </svg>
                     <i />
                   </span>
-                  <h1 className="lt__title">
-                    <span className="sr-only">Your inbox, answered in your voice.</span>
-                    <span aria-hidden="true">
-                      <Words text="Your inbox, answered" />{" "}
-                      <span className="scribble-wrap">
-                        <span className="hw hw--script">
-                          <span className="hw__in script">in your voice.</span>
-                        </span>
-                        <Scribble />
+                  {/* named once for screen readers; the words are split for the animation */}
+                  <h1 className="lt__title" aria-label="Your inbox, answered in your voice.">
+                    <Words text="Your inbox, answered" />{" "}
+                    <span className="scribble-wrap">
+                      <span className="hw hw--script">
+                        <span className="hw__in script">in your voice.</span>
                       </span>
+                      <Scribble />
                     </span>
                   </h1>
                 </div>

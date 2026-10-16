@@ -21,6 +21,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - New animated header: burger morphs to a cross, a full-screen menu grows out of it with staggered links, and a reading-progress line runs along the pill.
 - New pages: `/privacy/` and `/terms/`, plain-language versions of the official SuperMIA documents, linking to the binding versions.
 - Every link and button shows a pointer cursor.
+- Entry loader: a gold envelope draws itself while a counter tracks real loading (fonts, hero photo, logos), the wax seal stamps on, and the screen parts along the fold to reveal the hero. The hero entrance now plays exactly as it's revealed, so the first load no longer shows a half-animated letter.
+- "The 3.1-hour day" redesigned as a day ribbon: seven email blocks (exactly 3.1 hrs) fill a 9am–6pm day, then MailPilot's seal sweeps across, collapsing them and growing real work in their place. Vertical planner on phones, with the after photo as the payoff.
+- Footer: the giant wordmark no longer swallows clicks on Privacy, Terms and SuperMIA; legal links are brighter.
+- Legal pages: the contact seal shows the full, centred MailPilot mark.
+- Sign-in links now go to mailpilot.supermia.ai.
+- Hero envelope scene: the letter now lifts clear, the envelope rises underneath it, and the letter slides in from the front (in front of the envelope's inside, behind its pockets). The wax seal's logo is centred (a global `svg { max-width: 100% }` reset had squeezed the wax blob off-centre).
+- Hero: the postmark now lands on the postage stamp instead of over the headline; side spacing stays even when the browser shows a scrollbar (the gutter is reserved during the loader, and scroll scenes re-measure when it finishes).
+- Copy: removed every en and em dash from the site text.
+- SEO: every page is pre-rendered to static HTML at build time; keyword-targeted titles and descriptions; canonical links; Open Graph and Twitter cards; JSON-LD structured data (Organization, WebSite, SoftwareApplication with "Mail Pilot" as an alternate name, FAQPage, BreadcrumbList); generated sitemap.xml and robots.txt; a full favicon set and web manifest; descriptive alt text on content photos; the hero heading is no longer duplicated for crawlers.
+- Removed a dead data block left behind by an earlier cleanup.
 - Cleanup: removed old design backups, scratch files, unused images, Tailwind (installed but unused), stale docs (ARCHITECTURE, ROADMAP, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY), unused data, hooks and CSS. Build tools moved to devDependencies.
 - Footer: envelope flap and seal no longer overlap the columns; a cleaner Office column; real platform icons (also in the hero).
 

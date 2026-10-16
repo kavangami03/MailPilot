@@ -147,7 +147,7 @@ export function Brochure() {
                 <i key={i} className={i === step ? "is-on" : ""} />
               ))}
             </span>
-            {visible.length === 1 ? (step === 0 ? "Cover" : `Page ${visible[0]}`) : `Pages ${visible[0]}–${visible[1]}`}
+            {visible.length === 1 ? (step === 0 ? "Cover" : `Page ${visible[0]}`) : `Pages ${visible[0]} & ${visible[1]}`}
           </p>
 
           {/* small screens: swipe through the pages */}

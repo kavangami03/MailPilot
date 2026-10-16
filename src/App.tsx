@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { useHeadlineSplits, useReveals, useSmoothScroll } from "./lib/motion";
+import { Loader } from "./components/Loader";
 import { Nav } from "./components/Nav";
 import { Hero } from "./components/Hero";
 import { DayStrip } from "./components/DayStrip";
@@ -24,6 +25,7 @@ export default function App() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
+      <Loader />
       <Nav />
       <main id="main">
         <Hero />

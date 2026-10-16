@@ -141,7 +141,7 @@ export function Folders() {
                             <figure className="polaroid">
                               <span className="polaroid__tape" />
                               <div className="polaroid__img">
-                                <Photo name={f.photo} alt="">
+                                <Photo name={f.photo} alt={f.alt}>
                                   <Icon size={64} strokeWidth={1.2} />
                                 </Photo>
                               </div>
